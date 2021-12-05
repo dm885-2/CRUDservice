@@ -4,7 +4,9 @@
   "description": "A template for a generic microservice, which already have most stuff setup needed for a generic service. - DB connection. - RapidMQ. - Verify JWT token. - JEST testing. - NPM scripts.",
   "main": "jest.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TESTING=1 npx jest",
+    "start": "cross-env RAPID=1 node src/index.js",
+    "debug": "cross-env RAPID=1 nodemon src/index.js"
   },
   "repository": {
     "type": "git",
