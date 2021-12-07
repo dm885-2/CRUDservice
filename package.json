@@ -1,5 +1,5 @@
 {
-  "name": "microservice-template",
+  "name": "crudservice",
   "version": "0.0.1",
   "description": "A template for a generic microservice",
   "main": "./src/index.js",
