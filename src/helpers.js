@@ -1,3 +1,4 @@
+import rapid from "@ovcina/rapidriver";
 import jwt from "jsonwebtoken";
 import mysql from "mysql";
 
@@ -6,6 +7,37 @@ const SECRET = process.env.SECRET ?? `3(?<,t2mZxj$5JT47naQFTXwqNWP#W>'*Kr!X!(_M3
 const rabbitUser = process.env.rabbitUser ?? "guest";
 const rabbitPass = process.env.rabbitPass ?? "guest";
 export const host = "amqp://" + rabbitUser + ":" + rabbitPass + "@" + (process.env.rabbitHost ?? `localhost`);  // RabbitMQ url
+
+/**
+ * Automatically adds logging, request and sessionIDs to rabbit responses.
+ * @param stromg host 
+ * @param [] subscribers 
+ */
+ export function subscriber(host, subscribers)
+ {
+     rapid.subscribe(host, subscribers.map(subscriber => ({
+         river: subscriber.river,
+         event: subscriber.event,
+         work: (msg, publish) => {
+             const wrapResponse = (func) => {
+                 let logPath = msg.logPath ?? [];
+                 logPath.push({
+                     river: subscriber.river, 
+                     event: subscriber.event
+                 });
+ 
+                 return (event, data) => func(event, {
+                    ...data,
+                    sessionId: msg.sessionId,
+                    requestId: msg.requestId,
+                    logPath
+                });
+             };
+             
+             subscriber.work(msg, wrapResponse(publish));
+         },
+     })));
+}
 
 /**
  * Returns the token payload if its valid, otherwise it returns false.

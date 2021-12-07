@@ -1,8 +1,9 @@
 {
-  "name": "crudservice",
-  "version": "1.0.0",
-  "description": "A template for a generic microservice, which already have most stuff setup needed for a generic service. - DB connection. - RapidMQ. - Verify JWT token. - JEST testing. - NPM scripts.",
-  "main": "jest.config.js",
+  "name": "microservice-template",
+  "version": "0.0.1",
+  "description": "A template for a generic microservice",
+  "main": "./src/index.js",
+  "type": "module",
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TESTING=1 npx jest",
     "start": "cross-env RAPID=1 node src/index.js",
@@ -10,21 +11,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DM885/CRUDservice.git"
+    "url": "git+https://github.com/DM885/Microservice-template.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DM885/CRUDservice/issues"
+    "url": "https://github.com/DM885/Microservice-template/issues"
   },
-  "homepage": "https://github.com/DM885/CRUDservice#readme",
+  "homepage": "https://github.com/DM885/Microservice-template#readme",
   "dependencies": {
     "@ovcina/rapidriver": "^2.0.7",
+    "jsonwebtoken": "^8.5.1",
+    "cross-env": "^7.0.3",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "cypress": "^9.1.1",
-    "jest": "^27.4.3"
+    "jest": "^27.3.1",
+    "cypress": "^9.1.0",
+    "nodemon": "^2.0.14"
   }
 }
