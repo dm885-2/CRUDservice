@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DM885/Microservice-template.git"
+    "url": "git+https://github.com/DM885/CRUDservice.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DM885/Microservice-template/issues"
+    "url": "https://github.com/DM885/CRUDservice/issues"
   },
-  "homepage": "https://github.com/DM885/Microservice-template#readme",
+  "homepage": "https://github.com/DM885/CRUDservice#readme",
   "dependencies": {
     "@ovcina/rapidriver": "^2.0.7",
     "jsonwebtoken": "^8.5.1",
