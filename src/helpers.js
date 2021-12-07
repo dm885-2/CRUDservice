@@ -49,7 +49,7 @@ export function getTokenData(token)
     return new Promise(resolve => jwt.verify(token, SECRET, (err, data) => resolve(err ? false : data)));
 }
 
-let connection;
+export let connection;
 if(process.env.mysqlDb)
 {
     connection = mysql.createConnection({
