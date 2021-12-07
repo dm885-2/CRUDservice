@@ -37,7 +37,7 @@ if(process.env.RAPID)
                 connection.query(query, params, (error, results) => {
                     if (err) {
                         publish('create-file-response', error.message);
-                        break;
+                        return;
                     }
                     publish('create-file-response', `File with id ${results.insertId} saved succesfully.`)
                 });                              
@@ -54,7 +54,7 @@ if(process.env.RAPID)
                 connection.query(query, fileId, (error, results) => {
                     if(error) {
                         publish('read-file-response', error.message);
-                        break;
+                        return;
                     }
 
                     publish('read-file-response', `File with id ${results.insertId} read succesfully.`)
@@ -76,7 +76,7 @@ if(process.env.RAPID)
                 connection.query(query, params, (error, results) => {
                     if(error) {
                         publish('update-file-response', error.message);
-                        break;
+                        return;
                     }
 
                     publish('update-file-response', `File with id ${results.insertId} updated succesfully.`)
@@ -94,7 +94,7 @@ if(process.env.RAPID)
                 connection.query(query, fileId, (error, results) => {
                     if(error) {
                         publish('delete-file-response', error.message);
-                        break;
+                        return;
                     }
 
                     publish('delete-file-response', `File with id ${results,insertId} deleted succesfully.`)
@@ -109,10 +109,10 @@ if(process.env.RAPID)
 
                 let query = 'SELECT * FROM mznfiles where userid=?'
 
-                connection.query(query, fileId, (error, results) => {
+                connection.query(query, userId, (error, results) => {
                     if(error) {
                         publish('get-all-files-response', error.message);
-                        break;
+                        return;
                     }
                     let payload = JSON.stringify(results);
                     publish('get-all-files-response', payload);
