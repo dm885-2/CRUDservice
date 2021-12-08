@@ -1,9 +1,9 @@
-import rapid, { publish } from "@ovcina/rapidriver";
+import rapid from "@ovcina/rapidriver";
 import {host, 
         getTokenData, 
         query, 
         connection,
-        createTable} from "./helpers.js";
+        } from "./helpers.js";
 
 
 // Example
@@ -16,7 +16,18 @@ export async function ping(msg){
     });
 }
 
-createTable();
+let createTable = `create table if not exists files(
+                    id int primary key auto_increment,
+                    filename varchar(50) not null,
+                    data text, 
+                    userid int)`;
+
+connection.query(createTable, (error, results) => {
+    if(error) {
+        throw error;
+    }
+});
+
 
 if(process.env.RAPID)
 {
@@ -29,17 +40,17 @@ if(process.env.RAPID)
                 let data = msg.data.toString();
                 let userId = msg.userId.toString();
 
-                let query = `INSERT INTO mznfiles(filename,data,userid)
+                let query = `INSERT INTO files(filename,data,userid)
                              VALUES(?,?,?)`;
                 
                 let params = [filename, data, userId];
 
                 connection.query(query, params, (error, results) => {
                     if (err) {
-                        publish('create-file-response', error.message);
+                        publish('create-file-response', error);
                         return;
                     }
-                    publish('create-file-response', `File with id ${results.insertId} saved succesfully.`)
+                    publish('create-file-response', {error: false, message: "File created successfully."})
                 });                              
             }
         },
@@ -49,7 +60,7 @@ if(process.env.RAPID)
             work: (msg, publish) => {
                 let fileId = msg.fileId.toString(); //to int?
     
-                let query = 'SELECT * FROM mznfiles WHERE id=?';
+                let query = 'SELECT * FROM files WHERE id=?';
 
                 connection.query(query, fileId, (error, results) => {
                     if(error) {
@@ -68,7 +79,7 @@ if(process.env.RAPID)
                 let fileId = msg.fileId.toString();
                 let data = msg.data.toString();
 
-                let query = `UPDATE mznfiles
+                let query = `UPDATE files
                              SET data = ?
                              WHERE id = ?`;
                 let params = [data, fileId];
@@ -89,7 +100,7 @@ if(process.env.RAPID)
             work: (msg, publish) => {
                 let fileId = msg.fileId.toString();
                 
-                let query = `DELETE FROM mznfiles WHERE id = ?`
+                let query = `DELETE FROM files WHERE id = ?`
 
                 connection.query(query, fileId, (error, results) => {
                     if(error) {
@@ -107,7 +118,7 @@ if(process.env.RAPID)
             work: (msg, publish) => {
                 let userId = msg.userId.toString();
 
-                let query = 'SELECT * FROM mznfiles where userid=?'
+                let query = 'SELECT * FROM files where userid=?'
 
                 connection.query(query, userId, (error, results) => {
                     if(error) {

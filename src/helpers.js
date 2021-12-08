@@ -43,7 +43,7 @@ export const host = "amqp://" + rabbitUser + ":" + rabbitPass + "@" + (process.e
  * Returns the token payload if its valid, otherwise it returns false.
  * @param String token 
  * @returns Promise<false|TokenData>
- */
+**/
 export function getTokenData(token)
 {
     return new Promise(resolve => jwt.verify(token, SECRET, (err, data) => resolve(err ? false : data)));

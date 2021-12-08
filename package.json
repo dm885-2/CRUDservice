@@ -7,6 +7,7 @@
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TESTING=1 npx jest",
     "start": "cross-env RAPID=1 node src/index.js",
+    "debugDocker": "cross-env RAPID=1 mysqlHost=localhost mysqlPass=password mysqlDb=dm885 mysqlUser=root nodemon src/index.js",
     "debug": "cross-env RAPID=1 nodemon src/index.js"
   },
   "repository": {
