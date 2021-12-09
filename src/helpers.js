@@ -58,7 +58,7 @@ if(process.env.mysqlDb)
         password : process.env.mysqlPass ?? '',
         database : process.env.mysqlDb ?? 'db',
     });
-    connection.connect();
+    
 }
 
 /**

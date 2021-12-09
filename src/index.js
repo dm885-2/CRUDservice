@@ -3,18 +3,8 @@ import {host,
         getTokenData, 
         query, 
         connection,
+        subscriber
         } from "./helpers.js";
-
-
-// Example
-export async function ping(msg){
-    const isLoggedIn = await getTokenData(msg.token);
-
-    rapid.publish(host, "pong", {
-        check: isLoggedIn ? true : false,
-        sessionID: msg.sessionID,
-    });
-}
 
 let createTable = `create table if not exists files(
                     id int primary key auto_increment,
@@ -28,17 +18,16 @@ connection.query(createTable, (error, results) => {
     }
 });
 
-
 if(process.env.RAPID)
 {
-    rapid.subscribe(host, [
+    subscriber(host, [
         {
             river: "CRUD", 
             event: "create-file", 
             work: (msg, publish) => {
-                let filename = msg.name.toString();
-                let data = msg.data.toString();
-                let userId = msg.userId.toString();
+                let filename = msg.filename;
+                let data = msg.data;
+                let userId = msg.userId;
 
                 let query = `INSERT INTO files(filename,data,userid)
                              VALUES(?,?,?)`;
@@ -46,8 +35,8 @@ if(process.env.RAPID)
                 let params = [filename, data, userId];
 
                 connection.query(query, params, (error, results) => {
-                    if (err) {
-                        publish('create-file-response', error);
+                    if (error) {
+                        publish('create-file-response', {error: true, message: error});
                         return;
                     }
                     publish('create-file-response', {error: false, message: "File created successfully."})
@@ -58,17 +47,18 @@ if(process.env.RAPID)
             river: "CRUD",
             event: "read-file",
             work: (msg, publish) => {
-                let fileId = msg.fileId.toString(); //to int?
-    
-                let query = 'SELECT * FROM files WHERE id=?';
+                //burde det ikke være navn og userid ? 
+                let userId = msg.userId;
+                let filename = msg.filename;
 
-                connection.query(query, fileId, (error, results) => {
-                    if(error) {
-                        publish('read-file-response', error.message);
+                let query = 'SELECT * FROM files WHERE userId=? AND filename=?';
+
+                connection.query(query, [userId, filename], (error, results) => {
+                    if(error || Object.keys(results).length === 0) {
+                        publish('read-file-response', {error: true, message: "File not found", errormessage: error});
                         return;
                     }
-
-                    publish('read-file-response', `File with id ${results.insertId} read succesfully.`)
+                    publish('read-file-response', {error: false, filename: results[0].filename, data: results[0].data, userid: results[0].userid})
                 });
             }
         },
