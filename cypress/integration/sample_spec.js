@@ -1,12 +1,12 @@
 const ip = "http://127.0.0.1:8080"; // Should be url to UI
 
-describe('Rapid River Tests', () => {
+describe('CRUD Tests', () => {
     it("Test GET /", () => {  
         cy.request('GET', ip + "/").then((response) => {
             cy.wrap(response).its('status').should('eq', 200);
         })
-    });
-
+    })
+    
     it("CREATE file test", () => {
         cy.request('POST', ip + "/files/create", {
             filename: "testfile.mzn",
@@ -15,7 +15,7 @@ describe('Rapid River Tests', () => {
         }).then((response) => {
             cy.wrap(response).its('error').should('eq', false);
         })
-    });
+    })
 
     it("READ file test", () => {
         cy.request('GET', ip + "/files/read", {
