@@ -96,7 +96,7 @@ jobs:
       run: |
         ./.github/k3s-wait.sh
     - name: Port Forward
-      run: kubectl -n ${{ env.NAMESPACE }} port-forward svc/gateway 8080:80 & pid=$!
+      run: kubectl -n ${{ env.NAMESPACE }} port-forward svc/gateway 3000:80 & pid=$!
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test

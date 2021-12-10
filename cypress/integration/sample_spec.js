@@ -1,4 +1,4 @@
-const ip = "http://127.0.0.1:8080"; // Should be url to UI
+const ip = "http://127.0.0.1:3000"; // Should be url to UI
 
 describe('CRUD Tests', () => {
     it("Test GET /", () => {  
