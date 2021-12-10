@@ -71,7 +71,8 @@ if(process.env.RAPID)
                 let userId = msg.userId;
                 let filename = msg.filename;
                 let data = msg.data;
-
+                let filetype = msg.filetype;
+                    
                 let query = `UPDATE files
                              SET data = ?
                              WHERE userid = ? AND filename = ?`;
@@ -93,6 +94,7 @@ if(process.env.RAPID)
             work: (msg, publish) => {
                 let userId = msg.userId;
                 let filename = msg.filename;
+                let filetype = msg.filetype;
                 
                 let query = `DELETE FROM files WHERE userid = ? AND filename = ?`
 
