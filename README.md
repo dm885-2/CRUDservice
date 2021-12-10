@@ -1,6 +1,6 @@
-# Endpoints:
+\# Endpoints:
 
-## POST `/create`
+## POST `/files/create`
 ### Body:
 ```
 {
@@ -9,18 +9,24 @@
    filetype: string,
 }
 ```
-### Response:
-
+### Response if successful:
 ```
 {
    error: boolean,
    message: string,
    filename: string,
    filetype: string,
-   userid: number,
+   userId: number,
 }
 ```
-## GET `/read`
+### Response if unsucessful:
+```
+{
+   error: boolean,
+   errormessage: object,
+}
+```
+## GET `/files/read`
 ### Body:
 ```
 {
@@ -28,14 +34,49 @@
    filetype: string,
 }
 ```
-### Response:
+### Response if successful:
 ```
 {
    error: boolean,
    filename: string,
    filetype: string,
    data: string,
-   userid: number,
+   userId: number,
+}
+```
+### Response if unsucessful:
+```
+{
+   error: boolean,
+   message: string,
+   errormessage: object,
+}
+```
+## PUT `/files/update`
+### Body:
+```
+{
+   filename: string,
+   data: string,
+   filetype: string,
+}
+```
+### Response if successful:
+```
+{
+   error: boolean,
+   message: string,
+   filename: string,
+   filetype: string,
+   userId: number,
+}
+```
+### Response if unsucessful:
+```
+{
+   error: boolean,
+   message: string,
+   errormessage: object
 }
 ```
 
