@@ -26,37 +26,31 @@ describe('CRUD Tests', () => {
         })
     })
 
-    // it("UPDATE file test", () => {
-    //     cy.request('PUT', ip + "/files/update", {
-    //         filename: "testfile.mzn",
-    //         data: "new content of the file!",
-    //         filetype: "mzn"
-    //     }).then((response) => {
-    //         cy.wrap(response).its('error').should('eq', false);
-    //     })
-    // })
+    it("CREATE some more files", () => {
+        for(var i = 0; i < 5; i++) {
+            cy.request('POST', ip + "/files/create", {
+                filename: "testfile" + i + ".mzn",
+                data: "new content of the file" + i + "!",
+                filetype: "mzn"
+            }).then((response) => {
+                cy.wrap(response).its('error').should('eq', false);
+            })
+        }
+    })
 
-    // it("CREATE some more files", () => {
-    //     for(var i = 0; i < 5; i++) {
-    //         cy.request('POST', ip + "/files/create", {
-    //             filename: "testfile" + i + ".mzn",
-    //             data: "new content of the file" + i + "!",
-    //             filetype: "mzn"
-    //         }).then((response) => {
-    //             cy.wrap(response).its('error').should('eq', false);
-    //         })
-    //     }
-    // })
-
-    // it("DELETE file test", () => {
-    //     cy.request('DELETE', ip + "/files/delete", {
-    //         filename: "testfile.mzn",
-    //         filetype: "mzn"
-            
-    //     }).then((response) => {
-    //         cy.wrap(response).its('error').should('eq', false);
-    //     })
-    // })
+    it("DELETE file test", () => {
+        cy.request({
+            method: "DELETE",
+            url: ip + "/files/delete",
+            json: true,
+            body: {
+                filename: "testfile.mzn",
+                filetype: "mzn"
+            }
+        }).then((response) => {
+            cy.wrap(response).its('status').should('eq', 200);
+        })
+    })
 
     // it("GET ALL file test", () => {
     //     cy.request('GET', ip + "/files/getall", {
