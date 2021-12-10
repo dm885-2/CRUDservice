@@ -26,17 +26,17 @@ describe('CRUD Tests', () => {
         })
     })
 
-    it("CREATE some more files", () => {
-        for(var i = 0; i < 5; i++) {
-            cy.request('POST', ip + "/files/create", {
-                filename: "testfile" + i + ".mzn",
-                data: "new content of the file" + i + "!",
-                filetype: "mzn"
-            }).then((response) => {
-                cy.wrap(response).its('error').should('eq', false);
-            })
-        }
-    })
+    // it("CREATE some more files", () => {
+    //     for(var i = 0; i < 5; i++) {
+    //         cy.request('POST', ip + "/files/create", {
+    //             filename: "testfile" + i + ".mzn",
+    //             data: "new content of the file" + i + "!",
+    //             filetype: "mzn"
+    //         }).then((response) => {
+    //             cy.wrap(response).its('status').should('eq', 200);
+    //         })
+    //     }
+    // })
 
     it("DELETE file test", () => {
         cy.request({
