@@ -4,9 +4,20 @@
 ### Body:
 ```
 {
-   filename: string
-   content: string
-   filetype: string
+   filename: string,
+   content: string,
+   filetype: string,
+}
+```
+### Response:
+
+```
+{
+   error: boolean,
+   message: string,
+   filename: string,
+   filetype: string,
+   userId: number,
 }
 ```
 
