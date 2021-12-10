@@ -11,13 +11,14 @@ describe('CRUD Tests', () => {
         })
     })
 
-    it("READ file test", () => {
+    it("UPDATE file test", () => {
         cy.request({
-            method: "GET",
-            url: ip + "/files/read",
+            method: "PUT",
+            url: ip + "/files/update",
             json: true,
             body: {
                 filename: "testfile.mzn",
+                data: "THIS IS THE NEW DATA",
                 filetype: "mzn"
             }
         }).then((response) => {
