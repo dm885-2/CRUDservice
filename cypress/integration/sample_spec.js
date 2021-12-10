@@ -30,7 +30,7 @@ describe('CRUD Tests', () => {
         for(var i = 0; i < 5; i++) {
             it("CREATE file test", () => {
                 cy.request('POST', ip + "/files/create", {
-                    filename: "testfile.mzn",
+                    filename: i+"testfile.mzn",
                     filetype: "mzn",
                     data: "This is the file content!"
                 }).then((response) => {
