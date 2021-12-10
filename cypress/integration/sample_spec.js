@@ -54,16 +54,16 @@ describe('CRUD Tests', () => {
         })
     })
 
-    it("GET ALL file test", () => {
-        cy.request({
-            method: "GET",
-            url: ip + "/files/getall",
-            json: true,
-            body: {
-                filetype: "mzn"
-            }
-        }).then((response) => {
-            cy.wrap(response).its('status').should('eq', 200);
-        })
-    })
+    // it("GET ALL file test", () => {
+    //     cy.request({
+    //         method: "GET",
+    //         url: ip + "/files/getall",
+    //         json: true,
+    //         body: {
+    //             filetype: "mzn"
+    //         }
+    //     }).then((response) => {
+    //         cy.wrap(response).its('status').should('eq', 200);
+    //     })
+    // })
 })
