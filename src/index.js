@@ -60,7 +60,7 @@ if(process.env.RAPID)
                         publish('read-file-response', {error: true, message: "File not found", errormessage: error});
                         return;
                     }
-                    publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data, userid: results[0].userid})
+                    publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data, userId: results[0].userid})
                 });
             }
         },
