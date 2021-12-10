@@ -95,8 +95,10 @@ jobs:
     - name: Wait for service rollout
       run: |
         ./.github/k3s-wait.sh
+        sleep 10
+      shell: bash
     - name: Port Forward
-      run: kubectl -n ${{ env.NAMESPACE }} port-forward deploy/gateway 8080:80 & pid=$!
+      run: kubectl -n ${{ env.NAMESPACE }} port-forward svc/gateway 8080:80 & pid=$!
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
