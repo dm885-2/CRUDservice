@@ -9,7 +9,7 @@ import {host,
 let createTable = `CREATE TABLE if not exists files(
                     filename varchar(50) not null,
                     data text, 
-                    userid int,
+                    userId int,
                     filetype varchar(5) not null,
                     PRIMARY KEY (userid, filename))`;
 
