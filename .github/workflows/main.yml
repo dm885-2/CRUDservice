@@ -95,7 +95,7 @@ jobs:
         cat ./deployment.yaml | sed "s/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}-testing/g" | kubectl -n ${{ env.NAMESPACE }} apply -f -
     - name: Wait for service rollout
       run: |
-        ./.github/k3s-wait.sh 
+        kubectl wait --for=condition=available --timeout=100s deployment/${{env.DEPLOYMENT_NAME}} -n ${{ env.NAMESPACE }} 
         kubectl get pods 
         kubectl -n rabbits get pods
     - name: Port Forward
