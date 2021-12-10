@@ -8,7 +8,7 @@ describe('CRUD Tests', () => {
             data: "This is the file content!"
         }).then((response) => {
             console.log(response);
-            cy.wrap(response).its('status').should('eq', "200");
+            cy.wrap(response).its('status').should('eq', 200);
         })
     })
 
