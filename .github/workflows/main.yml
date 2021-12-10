@@ -14,9 +14,9 @@ env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
   GKE_CLUSTER: buildcluster
   GKE_ZONE: europe-north1
-  NAMESPACE: rabbits                                       # Maybe change this, probably not though.
-  DEPLOYMENT_NAME: crud                             # Change this to match the name in the deployment.yaml
-  IMAGE: ${{secrets.DOCKERHUB_USERNAME}}/crud      # Change this to match the image name in deployment.yaml
+  NAMESPACE: rabbits                                              # Maybe change this, probably not though.
+  DEPLOYMENT_NAME: crud                                           # Change this to match the name in the deployment.yaml
+  IMAGE: ${{secrets.DOCKERHUB_USERNAME}}/${{env.DEPLOYMENT_NAME}}
 
 jobs:
   build:
@@ -92,7 +92,7 @@ jobs:
         ./.github/k3s-wait.sh
     - name: Deploy Service
       run: |
-        cat ./deployment.yaml | sed "s/${{env.IMAGE}}/${{env.IMAGE}}testing/g" | kubectl -n ${{ env.NAMESPACE }} apply -f -
+        cat ./deployment.yaml | sed "s/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}testing/g" | kubectl -n ${{ env.NAMESPACE }} apply -f -
     - name: Wait for service rollout
       run: |
         ./.github/k3s-wait.sh
