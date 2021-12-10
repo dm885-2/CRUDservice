@@ -13,6 +13,7 @@ describe('CRUD Tests', () => {
             filetype: "mzn",
             data: "This is the file content!"
         }).then((response) => {
+            console.log(response);
             cy.wrap(response).its('error').should('eq', false);
         })
     })
