@@ -48,14 +48,14 @@ if(process.env.RAPID)
         {
             river: "CRUD",
             event: "read-file",
-            work: (msg, publish) => {
-                //burde det ikke være navn og userid ? 
+            work: (msg, publish) => { 
                 let userId = msg.userId;
                 let filename = msg.filename;
+                let filetype = msg.filetype;
 
-                let query = 'SELECT * FROM files WHERE userid=? AND filename=?';
+                let query = 'SELECT * FROM files WHERE userId=? AND filename=? AND filetype=?';
 
-                connection.query(query, [userId, filename], (error, results) => {
+                connection.query(query, [userId, filename, filetype], (error, results) => {
                     if(error || Object.keys(results).length === 0) {
                         publish('read-file-response', {error: true, message: "File not found", errormessage: error});
                         return;
@@ -75,8 +75,8 @@ if(process.env.RAPID)
                     
                 let query = `UPDATE files
                              SET data = ?
-                             WHERE userid = ? AND filename = ?`;
-                let params = [data, userId, filename];
+                             WHERE userId = ? AND filename = ? AND filetype = ?`;
+                let params = [data, userId, filename, filetype];
 
                 connection.query(query, params, (error, results) => {
                     if(error) {
@@ -96,9 +96,9 @@ if(process.env.RAPID)
                 let filename = msg.filename;
                 let filetype = msg.filetype;
                 
-                let query = `DELETE FROM files WHERE userid = ? AND filename = ?`
+                let query = `DELETE FROM files WHERE userId = ? AND filename = ? AND filetype=?`
 
-                connection.query(query, [userId, filename], (error, results) => {
+                connection.query(query, [userId, filename, filetype], (error, results) => {
                     if(error) {
                         publish('delete-file-response', {error: true, message: error.message});
                         return;
@@ -114,7 +114,7 @@ if(process.env.RAPID)
             work: (msg, publish) => {
                 let userId = msg.userId;
                 let filetype = msg.filetype;
-                let query = 'SELECT * FROM files WHERE userid=? AND filetype = ?';
+                let query = 'SELECT * FROM files WHERE userId=? AND filetype = ?';
 
                 connection.query(query, [userId, filetype], (error, results) => {
                     if(error) {

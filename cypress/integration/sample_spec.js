@@ -7,15 +7,17 @@ describe('CRUD Tests', () => {
             filetype: "mzn",
             data: "This is the file content!"
         }).then((response) => {
+            cy.log("file created")
+            cy.log(response);
             cy.wrap(response).its('status').should('eq', 200);
         })
     })
 
     it("READ file test", () => {
         cy.request('GET', ip + "/files/read", {
-            filename: "testfile.mzn",
-            filetype: "mzn"
+            filename: "testfile.mzn"
         }).then((response) => {
+            cy.log(response);
             cy.wrap(response).its('status').should('eq', 200);
         })
     })
