@@ -16,7 +16,7 @@ env:
   GKE_ZONE: europe-north1
   NAMESPACE: rabbits                                              # Maybe change this, probably not though.
   DEPLOYMENT_NAME: crud                                           # Change this to match the name in the deployment.yaml
-  IMAGE: ${{secrets.DOCKERHUB_USERNAME}}/${{env.DEPLOYMENT_NAME}}
+  IMAGE: ${{secrets.DOCKERHUB_USERNAME}}/$DEPLOYMENT_NAME
 
 jobs:
   build:
