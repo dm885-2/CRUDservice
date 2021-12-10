@@ -79,8 +79,50 @@
    errormessage: object
 }
 ```
-
-
+## DELETE `files/delete`
+### Body:
+```
+{
+   filetype: string,
+   filename: string,
+}
+```
+### Response if sucessful:
+```
+{
+   error: boolean,
+   message: string,
+   filename: string,
+   filetype: string
+}
+```
+## GET `files/getall`
+### Body:
+```
+{
+   filetype: string,
+}
+```
+### Response if successful:
+```
+{
+   error: boolean,
+   files: [
+      {  
+         filename: string, 
+         data: string,
+         userId:  
+      }
+   ]
+}
+```
+### Response if unsucessful:
+```
+{
+   error: boolean,
+   message: error object,
+}
+```
 # Microservice-template
 A template for a generic microservice, which already have most stuff setup needed for a generic service.
 - DB connection.
