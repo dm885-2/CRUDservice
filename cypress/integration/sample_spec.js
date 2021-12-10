@@ -15,7 +15,8 @@ describe('CRUD Tests', () => {
 
     it("READ file test", () => {
         cy.request('GET', ip + "/files/read", {
-            filename: "testfile.mzn"
+            filename: "testfile.mzn",
+            filetype: "mzn"
         }).then((response) => {
             cy.log(response);
             cy.wrap(response).its('status').should('eq', 200);
