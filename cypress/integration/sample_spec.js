@@ -11,20 +11,6 @@ describe('CRUD Tests', () => {
         })
     })
 
-    it("READ file test", () => {
-        cy.request({
-            method: "GET",
-            url: ip + "/files/read",
-            json: true,
-            body: {
-                filename: "testfile.mzn",
-                filetype: "mzn"
-            }
-        }).then((response) => {
-            cy.wrap(response).its('status').should('eq', 200);
-        })
-    })
-
     it("UPDATE file test", () => {
         cy.request({
             method: "PUT",
@@ -67,17 +53,4 @@ describe('CRUD Tests', () => {
             cy.wrap(response).its('status').should('eq', 200);
         })
     })
-
-    // it("GET ALL file test", () => {
-    //     cy.request({
-    //         method: "GET",
-    //         url: ip + "/files/getall",
-    //         json: true,
-    //         body: {
-    //             filetype: "mzn"
-    //         }
-    //     }).then((response) => {
-    //         cy.wrap(response).its('status').should('eq', 200);
-    //     })
-    // })
 })
