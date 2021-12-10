@@ -1,3 +1,17 @@
+##Endpoints:
+
+#POST /create
+Body:
+```
+{
+   filename: string
+   content: string
+   filetype: string
+}
+```
+
+
+
 # Microservice-template
 A template for a generic microservice, which already have most stuff setup needed for a generic service.
 - DB connection.
