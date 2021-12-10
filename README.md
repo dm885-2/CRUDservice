@@ -1,11 +1,11 @@
 # Endpoints:
 
-## POST /create
+## POST `/create`
 ### Body:
 ```
 {
    filename: string,
-   content: string,
+   data: string,
    filetype: string,
 }
 ```
@@ -17,10 +17,27 @@
    message: string,
    filename: string,
    filetype: string,
-   userId: number,
+   userid: number,
 }
 ```
-
+## GET `/read`
+### Body:
+```
+{
+   filename: string,
+   filetype: string,
+}
+```
+### Response:
+```
+{
+   error: boolean,
+   filename: string,
+   filetype: string,
+   data: string,
+   userid: number,
+}
+```
 
 
 # Microservice-template
