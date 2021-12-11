@@ -15,7 +15,7 @@ describe('CRUD Tests', () => {
 
         cy.request("GET", ip + '/files/read', {
             filename: "testfile.mzn",
-            filetype: "mzn",
+            filetype: "mzn"
         }).as('crudRead');
 
         cy.get("@crudRead").then(response => {
