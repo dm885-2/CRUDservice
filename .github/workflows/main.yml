@@ -98,7 +98,7 @@ jobs:
         kubectl wait --for=condition=available --timeout=100s deployment/${{env.DEPLOYMENT_NAME}} -n ${{ env.NAMESPACE }}
         ./.github/k3s-wait.sh
         kubectl get pods
-        kubectl -n rabbits get pods
+        kubectl -n ${{ env.NAMESPACE }} get pods
     - name: Port Forward
       run: kubectl -n ${{ env.NAMESPACE }} port-forward svc/gateway 3000:80 & pid=$!
     - run: npm ci
