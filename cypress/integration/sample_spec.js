@@ -7,7 +7,16 @@ describe('CRUD Tests', () => {
             filetype: "mzn",
             data: "This is the file content!"
         }).then((response) => {
-            cy.wrap(response).its('status').should('eq', 200);
+            expect(response).to.have.property("status", 200);
+        })
+    })
+
+    it("READ file test", () => {
+        cy.request("GET", ip + "/files/read", {
+            filename: "testfile.mzn",
+            filetype: "mzn"
+        }).then((response)=> {
+            expect(response).to.have.property("status", 200);
         })
     })
 
@@ -22,23 +31,19 @@ describe('CRUD Tests', () => {
                 filetype: "mzn"
             }
         }).then((response) => {
-            cy.wrap(response).its('status').should('eq', 200);
+            expect(response).to.have.property("status", 200);
         })
     })
-
-    it("CREATE some more files", () => {
+    
+    it("CREATE multiple file test", () => {
         for(var i = 0; i < 5; i++) {
-            it("CREATE file test", () => {
-                cy.request('POST', ip + "/files/create", {
-                    filename: i+"testfile.mzn",
-                    filetype: "mzn",
-                    data: "This is the file content!"
-                }).then((response) => {
-                    cy.wrap(response).its('status').should('eq', 200);
-                })
-            })
+            cy.request('POST', ip + "/files/create", {
+                filename: i+"testfile.mzn",
+                filetype: "mzn",
+                data: i+"This is the file content!"
+            });
         }
-    })
+    });
 
     it("DELETE file test", () => {
         cy.request({
@@ -50,7 +55,15 @@ describe('CRUD Tests', () => {
                 filetype: "mzn"
             }
         }).then((response) => {
-            cy.wrap(response).its('status').should('eq', 200);
+            expect(response).to.have.property("status", 200);
+        })
+    })
+
+    it("GET ALL file test", () => {
+        cy.request("GET", ip + "/files/getall", {
+            filetype: "mzn"
+        }).then((response)=> {
+            expect(response).to.have.property("status", 200);
         })
     })
 })
