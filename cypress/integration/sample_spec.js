@@ -10,8 +10,8 @@ describe('CRUD Tests', () => {
         });
 
         cy.request("GET", "/files/read", {
-            filename: "testfile.mzn",
-            filetype: "mzn"
+            "filename": "testfile.mzn",
+            "filetype": "mzn"
         }).then((response)=> {
             expect(response).to.have.property("status", 200);
         });
