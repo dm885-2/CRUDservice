@@ -103,11 +103,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - name: Cypress run
-      uses: cypress-io/github-action@v2
-      with:
-        broswer: chrome
-        headless: true
+    - name: Integration Testing
+      run: npx cypress run
 
   deploy:
     runs-on: ubuntu-latest
