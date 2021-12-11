@@ -18,11 +18,9 @@ describe('CRUD Tests', () => {
             filename: "testfile.mzn",
             filetype: "mzn",
             data: "This is the file content!"
-        }).as('createFile');
-
-        cy.get('@createFile').then(res => {
-            expect(res.status).to.eq(200);
-        });
+        }).then(res => {
+            expect(res).to.have.property("status", 200);
+        })
     });
 });
 
