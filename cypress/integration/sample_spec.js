@@ -1,9 +1,10 @@
 describe('CRUD Tests', () => {
     it("CRUD single file test", () => {
+
         cy.request('POST', "/files/create", {
-            filename: "testfile.mzn",
-            filetype: "mzn",
-            data: "This is the file content!"
+            "filename": "testfile.mzn",
+            "filetype": "mzn",
+            "data": "This is the file content!"
         }).then((response) => {
             expect(response).to.have.property("status", 200);
             expect(response.body).to.have.property("message", "File created successfully.");
