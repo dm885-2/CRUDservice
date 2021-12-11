@@ -24,13 +24,13 @@ describe('CRUD Tests', () => {
             expect(response).to.have.property("status", 200);
         });
 
-        cy.request("GET", "/files/read", {
-            "filename": "testfile.mzn",
-            "filetype": "mzn"
-        }).then((response)=> {
-            expect(response).to.have.property("status", 200);
-            expect(response.body).to.have.property("data", "This is the new content");
-        });
+        // cy.request("GET", "/files/read", {
+        //     "filename": "testfile.mzn",
+        //     "filetype": "mzn"
+        // }).then((response)=> {
+        //     expect(response).to.have.property("status", 200);
+        //     expect(response.body).to.have.property("data", "This is the new content");
+        // });
     })
 });
 
