@@ -1,19 +1,17 @@
 const ip = "http://127.0.0.1:3000";
 
 describe('CRUD Tests', () => {
-
-    it("CRUD operations on one file", () => {
-        cy.request("POST", ip + '/files/create', {
+    it("CREATE file test", () => {
+        cy.request('POST', ip + "/files/create", {
             filename: "testfile.mzn",
             filetype: "mzn",
             data: "This is the file content!"
-        }).as('crudCreate');
-
-        cy.get("@crudCreate").then(response => {
-            expect(response.status).to.eq(200);
+        }).then((response) => {
+            expect(response).to.have.property("status", 200);
+            expect(response.body).to.have.property("message", "File created successfully.");
         })
     })
-
+});
 
 
     // it("CREATE file test", () => {
@@ -98,4 +96,3 @@ describe('CRUD Tests', () => {
     //         expect(response).to.have.property("status", 200);
     //     })
     // })
-})
