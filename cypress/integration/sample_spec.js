@@ -1,4 +1,4 @@
-const ip = "http://127.0.0.1:3000"; // Should be url to UI
+const ip = "http://127.0.0.1:3000";
 
 describe('CRUD Tests', () => {
     it("CREATE file test", () => {
@@ -8,10 +8,17 @@ describe('CRUD Tests', () => {
             data: "This is the file content!"
         }).then((response) => {
             expect(response).to.have.property("status", 200);
+            // expect(response.body).to.have.property("message", "File created successfully.");
         })
     })
 
     it("READ file test", () => {
+        cy.request('POST', ip + "/files/create", {
+            filename: "testfile.mzn",
+            filetype: "mzn",
+            data: "This is the file content!"
+        });
+
         cy.request("GET", ip + "/files/read", {
             filename: "testfile.mzn",
             filetype: "mzn"
@@ -34,7 +41,7 @@ describe('CRUD Tests', () => {
             expect(response).to.have.property("status", 200);
         })
     })
-    
+
     it("CREATE multiple file test", () => {
         for(var i = 0; i < 5; i++) {
             cy.request('POST', ip + "/files/create", {
