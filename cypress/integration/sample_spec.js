@@ -1,28 +1,28 @@
 describe('CRUD Tests', () => {
 
     //Delete all files before each test
-    afterEach(()=> {
-        cy.request('GET', "/files/getall", {
-            "filetype": "mzn"
-        }).then(res => {
-            res.body.files.forEach(file => {
-                cy.request('DELETE', "/files/delete", {
-                    "filename": file.filename,
-                    "filetype": "mzn"
-                });
-            })
-        });
-        cy.request('GET', "/files/getall", {
-            "filetype": "dzn"
-        }).then(res => {
-            res.body.files.forEach(file => {
-                cy.request('DELETE', "/files/delete", {
-                    "filename": file.filename,
-                    "filetype": "mzn"
-                });
-            })
-        });
-    })
+    // afterEach(()=> {
+    //     cy.request('GET', "/files/getall", {
+    //         "filetype": "mzn"
+    //     }).then(res => {
+    //         res.body.files.forEach(file => {
+    //             cy.request('DELETE', "/files/delete", {
+    //                 "filename": file.filename,
+    //                 "filetype": "mzn"
+    //             });
+    //         })
+    //     });
+    //     cy.request('GET', "/files/getall", {
+    //         "filetype": "dzn"
+    //     }).then(res => {
+    //         res.body.files.forEach(file => {
+    //             cy.request('DELETE', "/files/delete", {
+    //                 "filename": file.filename,
+    //                 "filetype": "mzn"
+    //             });
+    //         })
+    //     });
+    // })
 
     it("CRUD single file test", () => {
         // Create file request
