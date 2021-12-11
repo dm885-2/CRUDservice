@@ -8,7 +8,7 @@ describe('CRUD Tests', () => {
             data: "This is the file content!"
         }).then((response) => {
             expect(response).to.have.property("status", 200);
-            // expect(response.body).to.have.property("message", "File created successfully.");
+            expect(response.body).to.have.property("message", "File created successfully.");
         })
     })
 
@@ -28,6 +28,12 @@ describe('CRUD Tests', () => {
     })
 
     it("UPDATE file test", () => {
+        cy.request('POST', ip + "/files/create", {
+            filename: "testfile.mzn",
+            filetype: "mzn",
+            data: "This is the file content!"
+        });
+
         cy.request({
             method: "PUT",
             url: ip + "/files/update",
@@ -42,17 +48,13 @@ describe('CRUD Tests', () => {
         })
     })
 
-    it("CREATE multiple file test", () => {
-        for(var i = 0; i < 5; i++) {
-            cy.request('POST', ip + "/files/create", {
-                filename: i+"testfile.mzn",
-                filetype: "mzn",
-                data: i+"This is the file content!"
-            });
-        }
-    });
-
     it("DELETE file test", () => {
+        cy.request('POST', ip + "/files/create", {
+            filename: "testfile.mzn",
+            filetype: "mzn",
+            data: "This is the file content!"
+        });
+
         cy.request({
             method: "DELETE",
             url: ip + "/files/delete",
@@ -67,6 +69,14 @@ describe('CRUD Tests', () => {
     })
 
     it("GET ALL file test", () => {
+        for(var i = 0; i < 5; i++) {
+            cy.request('POST', ip + "/files/create", {
+                filename: i+"testfile.mzn",
+                filetype: "mzn",
+                data: i+"This is the file content!"
+            });
+        }
+
         cy.request("GET", ip + "/files/getall", {
             filetype: "mzn"
         }).then((response)=> {
