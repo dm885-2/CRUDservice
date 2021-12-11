@@ -1,7 +1,7 @@
 describe('CRUD Tests', () => {
 
     //Delete all files before each test
-    // afterEach(()=> {
+    // beforeEach(()=> {
     //     cy.request('GET', "/files/getall", {
     //         "filetype": "mzn"
     //     }).then(res => {

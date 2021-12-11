@@ -98,6 +98,7 @@ jobs:
         ./.github/k3s-wait.sh
         kubectl get pods 
         kubectl -n ${{ env.NAMESPACE }} get pods
+        kubectl -n ${{ env.NAMESPACE }} get svc
     - name: Port Forward
       run: kubectl -n ${{ env.NAMESPACE }} port-forward svc/gateway 3000:80 & pid=$!
     - run: npm ci
