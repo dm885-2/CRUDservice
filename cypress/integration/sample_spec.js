@@ -5,17 +5,25 @@ describe('CRUD Tests', () => {
             "filename": "testfile.mzn",
             "filetype": "mzn",
             "data": "This is the file content!"
-        }).then((response) => {
+        }).as("create");
+    
+        cy.get("@create").then((response) => {
             expect(response).to.have.property("status", 200);
             expect(response.body).to.have.property("message", "File created successfully.");
         });
 
+        cy.wait("@create");
+
         cy.request("GET", "/files/read", {
             "filename": "testfile.mzn",
             "filetype": "mzn"
-        }).then((response)=> {
+        }).as("read");
+        
+        cy.get("read").then((response)=> {
             expect(response).to.have.property("status", 200);
         });
+
+        cy.wait("@read");
 
         cy.request("PUT", "/files/update", {
             "filename": "testfile.mzn",
