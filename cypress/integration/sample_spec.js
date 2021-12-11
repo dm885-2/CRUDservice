@@ -1,7 +1,6 @@
 const ip = "http://127.0.0.1:3000";
 
 describe('CRUD Tests', () => {
-
     it("CRUD operations on one file", () => {
         cy.request("POST", ip + '/files/create', {
             filename: "testfile.mzn",

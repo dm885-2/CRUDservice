@@ -96,6 +96,7 @@ jobs:
     - name: Wait for service rollout
       run: |
         kubectl wait --for=condition=available --timeout=100s deployment/${{env.DEPLOYMENT_NAME}} -n ${{ env.NAMESPACE }} 
+        ./.github/k3s-wait.sh
         kubectl get pods 
         kubectl -n rabbits get pods
     - name: Port Forward
