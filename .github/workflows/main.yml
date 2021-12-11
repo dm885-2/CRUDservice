@@ -105,10 +105,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: Integration Testing
-      uses: cypress-io/github-action@v2
-      with:
-        browser: chrome
-        headless: false
+      run: npx cypress run --headless --browser chrome
 
   deploy:
     runs-on: ubuntu-latest
