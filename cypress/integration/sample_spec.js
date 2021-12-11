@@ -14,7 +14,16 @@ describe('CRUD Tests', () => {
         })
     })
 
+    it("READ file test", () => {
+        cy.request("GET", ip + '/files/read', {
+            filename: "testfile.mzn",
+            filetype: "mzn"
+        }).as('crudRequest');
 
+        cy.get("@crudRequest").then(response => {
+            expect(response.status).to.eq(200);
+        })
+    })
 
 
 
