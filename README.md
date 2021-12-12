@@ -84,7 +84,7 @@
 ```
 {
    error: boolean,
-   files: [
+   results: [
       {  
          fileId: int
          filename: string, 
