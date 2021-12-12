@@ -1,5 +1,5 @@
 
-describe('CRUD Test', () => {
+describe('UPDATE Test', () => {
     //add a files before each test
     beforeEach(()=> {
         Cypress.Cookies.defaults({
@@ -26,7 +26,7 @@ describe('CRUD Test', () => {
             return;
         });
    })
-   
+
    it("UPDATE TEST", () => {
         cy.request('GET', "/files", {
             "filetype": "mzn"
