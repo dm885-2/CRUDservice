@@ -27,13 +27,15 @@ describe('CRUD Test', () => {
         });
    })
 
-   it("GET ALL TEST", () => {
+   it("GET TEST", () => {
         cy.request("GET", "/files", {
             "filetype": "mzn"
         }).then((res) => {
-            expect(res).to.have.property("status", 200);
-            expect(res.body).to.have.property("error", false);
-            return;
+            cy.request("GET", "/files/" + res.body.results[0].fileId).then(get => {
+                expect(get).to.have.property("status", 200);
+                expect(get.body).to.have.property("error", false);
+                return;
+            })
         });
    });
 
