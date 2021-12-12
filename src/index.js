@@ -7,11 +7,12 @@ import {host,
         } from "./helpers.js";
 
 let createTable = `CREATE TABLE if not exists files(
+                    fileId INT AUTO_INCREMENT, 
                     filename varchar(50) not null,
                     data text, 
                     userId int,
                     filetype varchar(5) not null,
-                    PRIMARY KEY (userid, filename))`;
+                    PRIMARY KEY (fileId))`; 
 
 connection.query(createTable, (error, results) => {
     if(error) {
@@ -41,7 +42,7 @@ if(process.env.RAPID)
                         publish('create-file-response', {error: true, message: error});
                         return;
                     }
-                    publish('create-file-response', {error: false, message: "File created successfully.", filename: filename, filetype: filetype, userId: userId})
+                    publish('create-file-response', {error: false, message: "File created successfully.", filename: filename, filetype: filetype})
                 });                              
             }
         },
@@ -49,18 +50,16 @@ if(process.env.RAPID)
             river: "CRUD",
             event: "read-file",
             work: (msg, publish) => { 
-                let userId = msg.userId;
-                let filename = msg.filename;
-                let filetype = msg.filetype;
+                let fileId = msg.fileId;
 
-                let query = 'SELECT * FROM files WHERE userId=? AND filename=? AND filetype=?';
+                let query = 'SELECT * FROM files WHERE fileId=?';
 
-                connection.query(query, [userId, filename, filetype], (error, results) => {
+                connection.query(query, [fileId], (error, results) => {
                     if(error || Object.keys(results).length === 0) {
                         publish('read-file-response', {error: true, message: "File not found", errormessage: error});
                         return;
                     }
-                    publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data, userId: results[0].userid})
+                    publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data})
                 });
             }
         },
@@ -68,15 +67,14 @@ if(process.env.RAPID)
             river: "CRUD",
             event: "update-file",
             work: (msg, publish) => {
-                let userId = msg.userId;
-                let filename = msg.filename;
+                let fileId = msg.fileId;
                 let data = msg.data;
-                let filetype = msg.filetype;
+                
                     
                 let query = `UPDATE files
                              SET data = ?
-                             WHERE userId = ? AND filename = ? AND filetype = ?`;
-                let params = [data, userId, filename, filetype];
+                             WHERE fileId = ?`;
+                let params = [data, fileId];
 
                 connection.query(query, params, (error, results) => {
                     if(error) {
@@ -84,7 +82,7 @@ if(process.env.RAPID)
                         return;
                     }
 
-                    publish('update-file-response', {error: false, message: "File updated successfully", filename: filename, filetype: filetype, userId: userId})
+                    publish('update-file-response', {error: false, message: "File updated successfully"})
                 });            
             }
         },
@@ -92,19 +90,17 @@ if(process.env.RAPID)
             river: "CRUD",
             event: "delete-file",
             work: (msg, publish) => {
-                let userId = msg.userId;
-                let filename = msg.filename;
-                let filetype = msg.filetype;
+                let fileId = msg.fileId;
                 
-                let query = `DELETE FROM files WHERE userId = ? AND filename = ? AND filetype=?`
+                let query = `DELETE FROM files WHERE fileId = ?`
 
-                connection.query(query, [userId, filename, filetype], (error, results) => {
+                connection.query(query, [fileId], (error, results) => {
                     if(error) {
                         publish('delete-file-response', {error: true, message: error.message});
                         return;
                     }
 
-                    publish('delete-file-response', {error: false, message: "File deleted succesfully", filename: filename, filetype: filetype, userId: userId})
+                    publish('delete-file-response', {error: false, message: "File deleted succesfully"})
                 });
             }
         },
@@ -114,6 +110,7 @@ if(process.env.RAPID)
             work: (msg, publish) => {
                 let userId = msg.userId;
                 let filetype = msg.filetype;
+
                 let query = 'SELECT * FROM files WHERE userId=? AND filetype = ?';
 
                 connection.query(query, [userId, filetype], (error, results) => {
@@ -121,9 +118,20 @@ if(process.env.RAPID)
                         publish('get-all-files-response', {error: true, message: error});
                         return;
                     }
-                    publish('get-all-files-response', {error: false, files: results});
+
+                    var files = [];
+                    results.forEach(element => {
+                        files.push(omit("data", element));
+                    });
+
+                    publish('get-all-files-response', {error: false, results: files});
                 });                
             }
         },
     ]);
 }
+
+function omit(key, obj) {
+    const { [key]: omitted, ...rest } = obj;
+    return rest;
+  }
