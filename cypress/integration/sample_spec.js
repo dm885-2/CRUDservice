@@ -34,6 +34,7 @@ describe('CRUD Tests', () => {
             expect(res.body).to.have.property("message", "File created successfully.");
             expect(res.body).to.have.property("error", false);
         });
+        
         cy.wait(2000);
     });
 
