@@ -1,6 +1,6 @@
 
 describe('CRUD Test', () => {
-    //Create files before each test
+    //add a files before each test
     beforeEach(()=> {
         cy.request("POST", "/files", {
             "filename": "testFile.mzn",
@@ -11,7 +11,7 @@ describe('CRUD Test', () => {
         });
     })
     
-   //Delete all files after each test
+    //Delete all files after each test
    afterEach(()=>{
         cy.request('GET', "/files", {
             "filetype": "mzn"
@@ -23,28 +23,22 @@ describe('CRUD Test', () => {
         });
    })
 
-   //Tests the endpoint GET /files/:id
-//    it("GET TEST", () => {
-//         // cy.request('GET', "/files", {
-//         //     "filetype": "mzn"
-//         // }).then(file => {
-//         //     // cy.request("GET", "/files/"+file.body.results[0].fileId).then((res) => {
-//         //     });
-//         cy.request("GET", "/files/1").then((res) => {                
-//             expect(res).to.have.property("status", 200);
-//             expect(res.body).to.have.property("error", false);
-//             expect(res.body).to.have.property("data", "This is the file content!");
-//             return;
-//         });
-//    });
-    
-   //Tests the endpoint PUT /files/:id
+   it("GET ALL TEST", () => {
+        cy.request("GET", "/files", {
+            "filetype": "mzn"
+        }).then((res) => {
+            expect(res).to.have.property("status", 200);
+            expect(res.body).to.have.property("error", false);
+            return;
+        });
+   });
+
    it("UPDATE TEST", () => {
         cy.request('GET', "/files", {
             "filetype": "mzn"
         }).then(file => {
             cy.request("PUT", "/files/"+file.body.results[0].fileId, {
-                "data": "new content"
+                "filetype": "mzn"
             }).then((res) => {
                 expect(res).to.have.property("status", 200);
                 expect(res.body).to.have.property("error", false);
