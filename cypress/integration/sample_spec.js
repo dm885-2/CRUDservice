@@ -34,9 +34,10 @@ describe('CRUD Tests', () => {
             expect(res.body).to.have.property("message", "File created successfully.");
             expect(res.body).to.have.property("error", false);
         });
-
         cy.wait(2000);
+    });
 
+    it("Test2", () => {
         cy.request('GET', "/files/read", {
             "filename": "testfile.mzn",
             "filetype": "mzn"
@@ -45,7 +46,7 @@ describe('CRUD Tests', () => {
             expect(res.body).to.have.property("error", false);
             expect(res.body).to.have.property("data", "This is the file content!");
         })
-    });
+    })
 
 
     // it("CRUD single file test", () => {
