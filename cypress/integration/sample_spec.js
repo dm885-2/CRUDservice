@@ -13,17 +13,16 @@ describe('CRUD Tests', () => {
 
 
 
-    it("POST test", async () =>  {
+    it("GET ALL  test", async () =>  {
         let create = cy.request("POST", "/files", {
             "filename": "testFile.mzn",
             "filetype": "mzn",
             "data": "This is the file content!"
         });
-        await(create).then((res) => {
-            console.log(res);
-
-            cy.request("GET", "/files", {filetype: "mzn"}).then(res2 => {
-                console.log(res2.body);
+        await(create).then(() => {
+            cy.request("GET", "/files", {filetype: "mzn"}).then(res => {
+                expect(res).to.have.property("status", 200);
+                expect(res.body).to.have.property("error", false);
             })
         })
     });
