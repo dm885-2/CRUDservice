@@ -1,5 +1,5 @@
-describe('CRUD Tests', () => {
-    
+
+describe('CRUD Tests', () => {  
     //Delete all files before each test
     // beforeEach(()=> {
     //     cy.request('GET', "/files/getall", {
@@ -25,29 +25,41 @@ describe('CRUD Tests', () => {
     // })
 
     it("CRUD single file test", () => {
+
+        // cy.intercept("POST", "/files/create").as("create");
+
         cy.request('POST', "/files/create", {
             "filename": "testfile.mzn",
             "filetype": "mzn",
             "data": "This is the file content!"
-        }).then(res => {
+        }).as("create");
+
+        cy.get("@create").should(res=>{
             expect(res).to.have.property("status", 200);
             expect(res.body).to.have.property("message", "File created successfully.");
             expect(res.body).to.have.property("error", false);
-        });
-        
-        cy.wait(2000);
+        })
+
+        // console.log(create.body)
+
+        // const read = await cy.request('GET', "/files/read", {
+        //     "filename": "testfile.mzn",
+        //     "filetype": "mzn"
+        // })
+
+        // console.log(read.body)
     });
 
-    it("Test2", () => {
-        cy.request('GET', "/files/read", {
-            "filename": "testfile.mzn",
-            "filetype": "mzn"
-        }).then(res => {
-            expect(res).to.have.property("status", 200);
-            expect(res.body).to.have.property("error", false);
-            expect(res.body).to.have.property("data", "This is the file content!");
-        })
-    })
+    // it("Test2", () => {
+    //     cy.request('GET', "/files/read", {
+    //         "filename": "testfile.mzn",
+    //         "filetype": "mzn"
+    //     }).then(res => {
+    //         expect(res).to.have.property("status", 200);
+    //         expect(res.body).to.have.property("error", false);
+    //         expect(res.body).to.have.property("data", "This is the file content!");
+    //     })
+    // })
 
 
     // it("CRUD single file test", () => {
