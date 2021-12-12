@@ -3,7 +3,7 @@ describe('CRUD Test', () => {
     //add a files before each test
     beforeEach(()=> {
         Cypress.Cookies.defaults({
-            preserve: "session_id"
+            preserve: "sessionId"
           })
 
         cy.request("POST", "/files", {
@@ -11,7 +11,7 @@ describe('CRUD Test', () => {
             "filetype": "mzn",
             "data": "This is the file content!"
         }).then((res) => {
-            return;
+            console.log(res.body.sessionId);
         });
     })
     
@@ -23,7 +23,7 @@ describe('CRUD Test', () => {
             res.body.results.forEach(file => {
                 cy.request('DELETE', "/files/"+file.fileId);
             })
-            return;
+            console.log(res.body.sessionId);
         });
    })
 
