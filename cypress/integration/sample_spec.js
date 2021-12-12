@@ -3,7 +3,7 @@ describe('CRUD Test', () => {
     //add a files before each test
     beforeEach(()=> {
         Cypress.Cookies.defaults({
-            preserve: "session_id"
+            preserve: "sessionId"
           })
 
         cy.request("POST", "/files", {
