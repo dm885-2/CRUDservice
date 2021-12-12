@@ -1,11 +1,7 @@
 
 describe('CRUD Test', () => {
-    //Delete all files before each test
+    //Create files before each test
     beforeEach(()=> {
-        Cypress.Cookies.defaults({
-            preserve: 'session_id',
-        })
-
         cy.request("POST", "/files", {
             "filename": "testFile.mzn",
             "filetype": "mzn",
@@ -13,8 +9,9 @@ describe('CRUD Test', () => {
         }).then((res) => {
             return;
         });
-   })
-
+    })
+    
+   //Delete all files after each test
    afterEach(()=>{
         cy.request('GET', "/files", {
             "filetype": "mzn"
@@ -26,6 +23,7 @@ describe('CRUD Test', () => {
         });
    })
 
+   //Tests the endpoint GET /files/:id
    it("GET TEST", () => {
         cy.request('GET', "/files", {
             "filetype": "mzn"
@@ -38,7 +36,8 @@ describe('CRUD Test', () => {
             });
         });
    });
-
+    
+   //Tests the endpoint PUT /files/:id
    it("UPDATE TEST", () => {
         cy.request('GET', "/files", {
             "filetype": "mzn"
