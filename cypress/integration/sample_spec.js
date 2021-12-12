@@ -34,43 +34,6 @@ describe('CRUD Tests', () => {
     //         preserve: 'sessionId'
     //     })
     // });
-    before(()=>{
-        const file = JSON.stringify(
-            {
-                filename: "testFile.mzn",
-                filetype: "mzn",
-                data: "This is the file content!"
-            }
-        )
-        cy.exec("curl --header 'Content-Type: application/json' \
-        --request POST \
-        --data '"+ file +"' \
-        http://localhost:3000/files/create");
-    })
-
-    after(()=> {
-        const file = JSON.stringify(
-            {
-                filename: "testFile.mzn",
-                filetype: "mzn"
-            }
-        )
-        cy.exec("curl --header 'Content-Type: application/json' \
-        --request DELETE \
-        --data '"+ file +"' \
-        http://localhost:3000/files/delete");
-    });
-
-    it("CRUD UPDATE file test", () => {
-        cy.request('GET', "/files/read", {
-            "filename": "testFile.mzn",
-            "filetype": "mzn"
-        }).as("read");
-        cy.get("@read").should(res=>{
-            expect(res).to.have.property("status", 200);
-            expect(res.body).to.have.property("error", false);
-        })
-    });
 
     // it("Test2", () => {
     //     cy.request('GET', "/files/read", {
