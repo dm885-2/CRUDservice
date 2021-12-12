@@ -24,12 +24,29 @@ describe('CRUD Tests', () => {
     //     });
     // })
 
-    it("CRUD single file test", () => {
-
-        // cy.intercept("POST", "/files/create").as("create");
-
+    beforeEach(()=> {
         cy.request('POST', "/files/create", {
-            "filename": "testfile.mzn",
+            "filename": "testFile.mzn",
+            "filetype": "mzn",
+            "data": "This is the file content!"
+        })
+    });
+
+    afterEach(()=> {
+        cy.request('DELETE', "/files/delete", {
+            "filename": "testFile.mzn",
+            "filetype": "mzn"
+        })
+    });
+
+    it("CRUD single file test", () => {
+        cy.request('DELETE', "/files/delete", {
+            "filename": "testFile.mzn",
+            "filetype": "mzn"
+        })
+        
+        cy.request('POST', "/files/create", {
+            "filename": "testfileTEST.mzn",
             "filetype": "mzn",
             "data": "This is the file content!"
         }).as("create");
@@ -39,7 +56,6 @@ describe('CRUD Tests', () => {
             expect(res.body).to.have.property("message", "File created successfully.");
             expect(res.body).to.have.property("error", false);
         })
-
         // console.log(create.body)
 
         // const read = await cy.request('GET', "/files/read", {
