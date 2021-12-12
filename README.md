@@ -73,13 +73,7 @@
    message: string
 }
 ```
-## GET `/files`
-### Body:
-```
-{
-   filetype: string
-}
-```
+## GET `/files/all/:type`
 ### Response if successful:
 ```
 {
