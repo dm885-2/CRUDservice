@@ -52,18 +52,6 @@ describe('CRUD Test', () => {
             });
         });
     });
-
-    it("DELETE TEST", () => {
-        cy.request('GET', "/files", {
-            "filetype": "mzn"
-        }).then(file => {
-            cy.request("DELETE", "/files/"+file.body.results[0].fileId).then((res) => {
-                expect(res).to.have.property("status", 200);
-                expect(res.body).to.have.property("error", false);
-                return;
-            });
-        });
-    });
 });
 
 // it("GET ALL", async () =>  {
