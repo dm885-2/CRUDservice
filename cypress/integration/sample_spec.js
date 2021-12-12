@@ -1,36 +1,83 @@
 
-describe('GET ALL Tests', () => {
+describe('CRUD Test', () => {
     //Delete all files before each test
-//     beforeEach(()=> {
-//        cy.request('GET', "/files", {
-//            "filetype": "mzn"
-//        }).then(res => {
-//            res.body.results.forEach(file => {
-//                cy.request('DELETE', "/files/"+file.fileId);
-//            })
-//        });
-//    })
-
-    beforeEach(() => {
+    beforeEach(()=> {
         Cypress.Cookies.defaults({
-            preserve: 'sessionId',
+            preserve: 'session_id',
         })
-    });
 
-   it("GET ALL", async () =>  {
-       let create = cy.request("POST", "/files", {
-           "filename": "testFile.mzn",
-           "filetype": "mzn",
-           "data": "This is the file content!"
-       });
-       await(create).then(() => {
-           cy.request("GET", "/files", {filetype: "mzn"}).then(res => {
-               expect(res).to.have.property("status", 200);
-               expect(res.body).to.have.property("error", false);
-           })
-       })
+        cy.request("POST", "/files", {
+            "filename": "testFile.mzn",
+            "filetype": "mzn",
+            "data": "This is the file content!"
+        }).then((res) => {
+            return;
+        });
+   })
+
+   afterEach(()=>{
+        cy.request('GET', "/files", {
+            "filetype": "mzn"
+        }).then(res => {
+            res.body.results.forEach(file => {
+                cy.request('DELETE', "/files/"+file.fileId);
+            })
+            return;
+        });
+   })
+
+   it("GET ALL TEST", () => {
+        cy.request("GET", "/files", {
+            "filetype": "mzn"
+        }).then((res) => {
+            expect(res).to.have.property("status", 200);
+            expect(res.body).to.have.property("error", false);
+            return;
+        });
    });
+
+   it("UPDATE TEST", () => {
+        cy.request('GET', "/files", {
+            "filetype": "mzn"
+        }).then(file => {
+            cy.request("PUT", "/files/"+file.body.results[0].fileId, {
+                "filetype": "mzn"
+            }).then((res) => {
+                expect(res).to.have.property("status", 200);
+                expect(res.body).to.have.property("error", false);
+                return;
+            });
+        });
+    });
 });
+
+// it("GET ALL", async () =>  {
+//     let create = cy.request("POST", "/files", {
+//         "filename": "testFile.mzn",
+//         "filetype": "mzn",
+//         "data": "This is the file content!"
+//     });
+//     await(create).then(() => {
+//         cy.request("GET", "/files", {filetype: "mzn"}).then(res => {
+//             expect(res).to.have.property("status", 200);
+//             expect(res.body).to.have.property("error", false);
+//         })
+//     })
+// });
+
+//  it("UPDATE", async () =>  {
+//      let get = cy.request("GET", "/files", {
+//          "filetype": "mzn"
+//      });
+//      await(get).then((files) => {
+//          let id = files.body.results[0].fileId;
+//          cy.request("PUT", "/files/"+id, {data: "new data!"}).then(res => {
+//              expect(res).to.have.property("status", 200);
+//              expect(res.body).to.have.property("error", false);
+//          })
+//      });
+//  });
+
 
    // beforeEach(()=> {
    //     cy.request('POST', "/files/create", {
