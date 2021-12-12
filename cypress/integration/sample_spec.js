@@ -41,8 +41,20 @@ describe('CRUD Test', () => {
             "filetype": "mzn"
         }).then(file => {
             cy.request("PUT", "/files/"+file.body.results[0].fileId, {
-                "filetype": "mzn"
+                "data": "new content"
             }).then((res) => {
+                expect(res).to.have.property("status", 200);
+                expect(res.body).to.have.property("error", false);
+                return;
+            });
+        });
+    });
+
+    it("DELETE TEST", () => {
+        cy.request('GET', "/files", {
+            "filetype": "mzn"
+        }).then(file => {
+            cy.request("DELETE", "/files/"+file.body.results[0].fileId).then((res) => {
                 expect(res).to.have.property("status", 200);
                 expect(res.body).to.have.property("error", false);
                 return;
