@@ -39,31 +39,16 @@ describe('CRUD Tests', () => {
         })
     });
 
-    it("CRUD single file test", () => {
-        cy.request('DELETE', "/files/delete", {
-            "filename": "testFile.mzn",
-            "filetype": "mzn"
-        })
-        
-        cy.request('POST', "/files/create", {
+    it("CRUD UPDATE file test", () => {
+        cy.request('GET', "/files/read", {
             "filename": "testfileTEST.mzn",
-            "filetype": "mzn",
-            "data": "This is the file content!"
-        }).as("create");
+            "filetype": "mzn"
+        }).as("read");
 
-        cy.get("@create").should(res=>{
+        cy.get("@read").should(res=>{
             expect(res).to.have.property("status", 200);
-            expect(res.body).to.have.property("message", "File created successfully.");
             expect(res.body).to.have.property("error", false);
         })
-        // console.log(create.body)
-
-        // const read = await cy.request('GET', "/files/read", {
-        //     "filename": "testfile.mzn",
-        //     "filetype": "mzn"
-        // })
-
-        // console.log(read.body)
     });
 
     // it("Test2", () => {
