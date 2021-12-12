@@ -24,19 +24,19 @@ describe('CRUD Test', () => {
    })
 
    //Tests the endpoint GET /files/:id
-   it("GET TEST", () => {
-        // cy.request('GET', "/files", {
-        //     "filetype": "mzn"
-        // }).then(file => {
-        //     // cy.request("GET", "/files/"+file.body.results[0].fileId).then((res) => {
-        //     });
-        cy.request("GET", "/files/1").then((res) => {                
-            expect(res).to.have.property("status", 200);
-            expect(res.body).to.have.property("error", false);
-            expect(res.body).to.have.property("data", "This is the file content!");
-            return;
-        });
-   });
+//    it("GET TEST", () => {
+//         // cy.request('GET', "/files", {
+//         //     "filetype": "mzn"
+//         // }).then(file => {
+//         //     // cy.request("GET", "/files/"+file.body.results[0].fileId).then((res) => {
+//         //     });
+//         cy.request("GET", "/files/1").then((res) => {                
+//             expect(res).to.have.property("status", 200);
+//             expect(res.body).to.have.property("error", false);
+//             expect(res.body).to.have.property("data", "This is the file content!");
+//             return;
+//         });
+//    });
     
    //Tests the endpoint PUT /files/:id
    it("UPDATE TEST", () => {
