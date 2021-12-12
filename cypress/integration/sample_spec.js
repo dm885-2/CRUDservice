@@ -1,45 +1,33 @@
 
 describe('CRUD Tests', () => {
+     //Delete all files before each test
+    //  beforeEach(()=> {
+    //     cy.request('GET', "/files", {
+    //         "filetype": "mzn"
+    //     }).then(res => {
+    //         res.body.results.forEach(file => {
+    //             cy.request('DELETE', "/files/"+file.fileId);
+    //         })
+    //     });
+    // })
 
-    it("Read test", async () =>  {
-        const create = await cy.request("POST", "/files", {
+
+
+    it("POST test", async () =>  {
+        let create = cy.request("POST", "/files", {
             "filename": "testFile.mzn",
             "filetype": "mzn",
             "data": "This is the file content!"
         });
-
-        cy.get(create).then((res) => {
+        await(create).then((res) => {
             console.log(res);
+
+            cy.request("GET", "/files", {filetype: "mzn"}).then(res2 => {
+                console.log(res2.body);
+            })
         })
     });
-
-
-
-
-
-    //Delete all files before each test
-    // beforeEach(()=> {
-    //     cy.request('GET', "/files", {
-    //         "filetype": "mzn"
-    //     }).then(res => {
-    //         res.body.files.forEach(file => {
-    //             cy.request('DELETE', "/files", {
-    //                 "filename": file.filename,
-    //                 "filetype": "mzn"
-    //             });
-    //         })
-    //     });
-    //     cy.request('GET', "/files", {
-    //         "filetype": "dzn"
-    //     }).then(res => {
-    //         res.body.files.forEach(file => {
-    //             cy.request('DELETE', "/files", {
-    //                 "filename": file.filename,
-    //                 "filetype": "mzn"
-    //             });
-    //         })
-    //     });
-    // })
+});
 
     // beforeEach(()=> {
     //     cy.request('POST', "/files/create", {
@@ -116,4 +104,4 @@ describe('CRUD Tests', () => {
     //         });
     //     });
     // });
-});
+// });
