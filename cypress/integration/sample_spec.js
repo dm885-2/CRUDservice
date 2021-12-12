@@ -26,17 +26,7 @@ describe('CRUD Test', () => {
             return;
         });
    })
-
-   it("GET ALL TEST", () => {
-        cy.request("GET", "/files", {
-            "filetype": "mzn"
-        }).then((res) => {
-            expect(res).to.have.property("status", 200);
-            expect(res.body).to.have.property("error", false);
-            return;
-        });
-   });
-
+   
    it("UPDATE TEST", () => {
         cy.request('GET', "/files", {
             "filetype": "mzn"
