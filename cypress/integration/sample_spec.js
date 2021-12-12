@@ -41,7 +41,7 @@ describe('CRUD Tests', () => {
 
     it("CRUD UPDATE file test", () => {
         cy.request('GET', "/files/read", {
-            "filename": "testfile.mzn",
+            "filename": "testFile.mzn",
             "filetype": "mzn"
         }).as("read");
 
