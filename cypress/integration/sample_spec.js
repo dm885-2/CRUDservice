@@ -2,6 +2,10 @@
 describe('CRUD Test', () => {
     //add a files before each test
     beforeEach(()=> {
+        Cypress.Cookies.defaults({
+            preserve: "session_id"
+          })
+
         cy.request("POST", "/files", {
             "filename": "testFile.mzn",
             "filetype": "mzn",
@@ -38,7 +42,7 @@ describe('CRUD Test', () => {
             "filetype": "mzn"
         }).then(file => {
             cy.request("PUT", "/files/"+file.body.results[0].fileId, {
-                "filetype": "mzn"
+                "data": "new data"
             }).then((res) => {
                 expect(res).to.have.property("status", 200);
                 expect(res.body).to.have.property("error", false);
