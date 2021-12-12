@@ -1,12 +1,12 @@
 \# Endpoints:
 
-## POST `/files/create`
+## POST `/files`
 ### Body:
 ```
 {
    filename: string,
    data: string,
-   filetype: string,
+   filetype: string
 }
 ```
 ### Response if successful:
@@ -15,8 +15,7 @@
    error: boolean,
    message: string,
    filename: string,
-   filetype: string,
-   userId: number,
+   filetype: string
 }
 ```
 ### Response if unsucessful:
@@ -26,49 +25,14 @@
    errormessage: object,
 }
 ```
-## GET `/files/read`
-### Body:
-```
-{
-   filename: string,
-   filetype: string,
-}
-```
+## GET `/files/:id`
 ### Response if successful:
 ```
 {
    error: boolean,
    filename: string,
    filetype: string,
-   data: string,
-   userId: number,
-}
-```
-### Response if unsucessful:
-```
-{
-   error: boolean,
-   message: string,
-   errormessage: object,
-}
-```
-## PUT `/files/update`
-### Body:
-```
-{
-   filename: string,
-   data: string,
-   filetype: string,
-}
-```
-### Response if successful:
-```
-{
-   error: boolean,
-   message: string,
-   filename: string,
-   filetype: string,
-   userId: number,
+   data: string
 }
 ```
 ### Response if unsucessful:
@@ -79,28 +43,41 @@
    errormessage: object
 }
 ```
-## DELETE `files/delete`
+## PUT `/files/:id`
 ### Body:
 ```
 {
-   filetype: string,
-   filename: string,
+   data: string
 }
 ```
-### Response if sucessful:
+### Response if successful:
+```
+{
+   error: boolean,
+   message: string
+}
+```
+### Response if unsucessful:
 ```
 {
    error: boolean,
    message: string,
-   filename: string,
-   filetype: string
+   errormessage: object
 }
 ```
-## GET `files/getall`
+## DELETE `/files/:id`
+### Response if sucessful:
+```
+{
+   error: boolean,
+   message: string
+}
+```
+## GET `/files`
 ### Body:
 ```
 {
-   filetype: string,
+   filetype: string
 }
 ```
 ### Response if successful:
@@ -109,9 +86,10 @@
    error: boolean,
    files: [
       {  
+         fileId: int
          filename: string, 
-         data: string,
-         userId:  
+         filetype: string,
+         userId: int
       }
    ]
 }
@@ -123,6 +101,8 @@
    message: error object,
 }
 ```
+
+
 # Microservice-template
 A template for a generic microservice, which already have most stuff setup needed for a generic service.
 - DB connection.
