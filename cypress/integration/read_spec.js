@@ -17,9 +17,7 @@ describe('READ Test', () => {
     
     //Delete all files after each test
    afterEach(()=>{
-        cy.request('GET', "/files", {
-            "filetype": "mzn"
-        }).then(res => {
+        cy.request('GET', "/files/all/mzn").then(res => {
             res.body.results.forEach(file => {
                 cy.request('DELETE', "/files/"+file.fileId);
             })
@@ -28,9 +26,7 @@ describe('READ Test', () => {
    })
 
    it("READ TEST", () => {
-        cy.request('GET', "/files", {
-            "filetype": "mzn"
-        }).then(file => {
+        cy.request('GET', "/files/all/mzn").then(file => {
             cy.request("GET", "/files/"+file.body.results[0].fileId).then((res) => {
                 expect(res).to.have.property("status", 200);
                 expect(res.body).to.have.property("error", false);
