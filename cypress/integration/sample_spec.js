@@ -3,7 +3,7 @@ describe('CRUD Test', () => {
     //add a files before each test
     beforeEach(()=> {
         Cypress.Cookies.defaults({
-            preserve: "sessionId"
+            preserve: "session_id"
           })
 
         cy.request("POST", "/files", {
@@ -11,7 +11,7 @@ describe('CRUD Test', () => {
             "filetype": "mzn",
             "data": "This is the file content!"
         }).then((res) => {
-            console.log(res.body.sessionId);
+            return;
         });
     })
     
@@ -23,19 +23,17 @@ describe('CRUD Test', () => {
             res.body.results.forEach(file => {
                 cy.request('DELETE', "/files/"+file.fileId);
             })
-            console.log(res.body.sessionId);
+            return;
         });
    })
 
-   it("GET TEST", () => {
+   it("GET ALL TEST", () => {
         cy.request("GET", "/files", {
             "filetype": "mzn"
         }).then((res) => {
-            cy.request("GET", "/files/" + res.body.results[0].fileId).then(get => {
-                expect(get).to.have.property("status", 200);
-                expect(get.body).to.have.property("error", false);
-                return;
-            })
+            expect(res).to.have.property("status", 200);
+            expect(res.body).to.have.property("error", false);
+            return;
         });
    });
 
