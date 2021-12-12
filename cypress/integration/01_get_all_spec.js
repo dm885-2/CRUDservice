@@ -1,19 +1,23 @@
 
-describe('CRUD Tests', () => {
+describe('GET ALL Tests', () => {
     //Delete all files before each test
-   //  beforeEach(()=> {
-   //     cy.request('GET', "/files", {
-   //         "filetype": "mzn"
-   //     }).then(res => {
-   //         res.body.results.forEach(file => {
-   //             cy.request('DELETE', "/files/"+file.fileId);
-   //         })
-   //     });
-   // })
+//     beforeEach(()=> {
+//        cy.request('GET', "/files", {
+//            "filetype": "mzn"
+//        }).then(res => {
+//            res.body.results.forEach(file => {
+//                cy.request('DELETE', "/files/"+file.fileId);
+//            })
+//        });
+//    })
 
+    beforeEach(() => {
+        Cypress.Cookies.defaults({
+            preserve: 'sessionId',
+        })
+    });
 
-
-   it("GET ALL  test", async () =>  {
+   it("GET ALL", async () =>  {
        let create = cy.request("POST", "/files", {
            "filename": "testFile.mzn",
            "filetype": "mzn",
