@@ -1,5 +1,5 @@
 
-describe('UPDATE Test', () => {
+describe('READ Test', () => {
     //add a files before each test
     beforeEach(()=> {
         Cypress.Cookies.defaults({
