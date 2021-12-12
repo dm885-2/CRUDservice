@@ -30,6 +30,9 @@ describe('CRUD Tests', () => {
             "filetype": "mzn",
             "data": "This is the file content!"
         })
+        Cypress.Cookies.defaults({
+            preserve: 'sessionId'
+        })
     });
 
     afterEach(()=> {
