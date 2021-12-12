@@ -39,7 +39,7 @@ if(process.env.RAPID)
 
                 connection.query(query, params, (error, results) => {
                     if (error) {
-                        publish('create-file-response', {error: true, message: error["code"]});
+                        publish('create-file-response', {error: true, message: error.code});
                         return;
                     }
                     publish('create-file-response', {error: false, message: "File created successfully.", filename: filename, filetype: filetype})
@@ -56,7 +56,7 @@ if(process.env.RAPID)
 
                 connection.query(query, [fileId], (error, results) => {
                     if(error || Object.keys(results).length === 0) {
-                        publish('read-file-response', {error: true, message: "File not found", errormessage: error["code"]});
+                        publish('read-file-response', {error: true, message: "File not found", errormessage: error.code});
                         return;
                     }
                     publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data})
@@ -78,7 +78,7 @@ if(process.env.RAPID)
 
                 connection.query(query, params, (error, results) => {
                     if(error) {
-                        publish('update-file-response', {error: true, message: "File not found", errormessage: error["code"]});
+                        publish('update-file-response', {error: true, message: "File not found", errormessage: error.code});
                         return;
                     }
 
@@ -96,7 +96,7 @@ if(process.env.RAPID)
 
                 connection.query(query, [fileId], (error, results) => {
                     if(error) {
-                        publish('delete-file-response', {error: true, message: error["code"]});
+                        publish('delete-file-response', {error: true, message: error.code});
                         return;
                     }
 
@@ -115,7 +115,7 @@ if(process.env.RAPID)
 
                 connection.query(query, [userId, filetype], (error, results) => {
                     if(error) {
-                        publish('get-all-files-response', {error: true, message: error["code"]});
+                        publish('get-all-files-response', {error: true, message: error.code});
                         return;
                     }
 
