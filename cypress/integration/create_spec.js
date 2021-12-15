@@ -35,22 +35,22 @@ describe('CREATE Test', () => {
             refreshToken : rt
         }).then(res3 => {
             at = res3.body.accessToken;
-            //add a files before the test
-            cy.request({
-                method: "POST",
-                url: "/files",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${at}`
-                },
-                body:  {
-                    "filename": "testwFile.mzn",
-                    "filetype": "mzn",
-                    "data": "This is the file content!"
-                }
-                
-            }).then(l => {return})
         })
+        //add a files before the test
+        cy.request({
+            method: "POST",
+            url: "/files",
+            retryOnStatusCodeFailure: true,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${at}`
+            },
+            body:  {
+                "filename": "testwFile.mzn",
+                "filetype": "mzn",
+                "data": "This is the file content!"
+            }    
+        }).then(l => {return})
     })
     
    it("CREATE TEST", () => {
