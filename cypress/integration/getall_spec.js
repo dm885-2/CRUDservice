@@ -16,7 +16,9 @@ describe('READ ALL Test', () => {
         Cypress.Cookies.defaults({
             preserve: "sessionId"
         })
+
         let username = datetime;
+        var rt;
         cy.request("POST", "/auth/register", {
             username: username,
             password: password,
@@ -26,31 +28,32 @@ describe('READ ALL Test', () => {
                 username: username,
                 password: password
             }).then(res2 => {
-                var rt = res2.body.refreshToken;
-                cy.request("POST", "/auth/accessToken", {
-                    refreshToken : rt
-                }).then(res3 => {
-                    at = res3.body.accessToken;
-                    //add a files before the test
-                    for(var i = 0; i < 5; i++) {
-                        cy.request({
-                            method: "POST",
-                            url: "/files",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${at}`
-                            },
-                            body:  {
-                                "filename": i+"testwFile.mzn",
-                                "filetype": "mzn",
-                                "data": "This is the file content!"
-                            }
-                        })
-                    }
-                    return;
-                })
+                 rt = res2.body.refreshToken;
             }); 
         });        
+
+        cy.request("POST", "/auth/accessToken", {
+            refreshToken : rt
+        }).then(res3 => {
+            at = res3.body.accessToken;
+        });
+
+        //add a files before the test
+        for(var i = 0; i < 5; i++) {
+            cy.request({
+                method: "POST",
+                url: "/files",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${at}`
+                },
+                body:  {
+                    "filename": i+"testwFile.mzn",
+                    "filetype": "mzn",
+                    "data": "This is the file content!"
+                }
+            }).then(re => {return})
+        }
     })
 
    it("READ ALL TEST", () => {

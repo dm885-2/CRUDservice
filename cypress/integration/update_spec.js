@@ -16,6 +16,7 @@ describe('UPDATE Test', () => {
         })
         
         let username = datetime;
+        var rt;
         cy.request("POST", "/auth/register", {
             username: username,
             password: password,
@@ -25,29 +26,30 @@ describe('UPDATE Test', () => {
                 username: username,
                 password: password
             }).then(res2 => {
-                var rt = res2.body.refreshToken;
-                cy.request("POST", "/auth/accessToken", {
-                    refreshToken : rt
-                }).then(res3 => {
-                    at = res3.body.accessToken;
-                    //add a files before the test
-                    cy.request({
-                        method: "POST",
-                        url: "/files",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${at}`
-                        },
-                        body:  {
-                            "filename": "testwFile.mzn",
-                            "filetype": "mzn",
-                            "data": "This is the file content!"
-                        }
-                        
-                    }).then(l => {return})
-                })
+                rt = res2.body.refreshToken;
             }); 
         });        
+
+        cy.request("POST", "/auth/accessToken", {
+            refreshToken : rt
+        }).then(res3 => {
+            at = res3.body.accessToken;
+            //add a files before the test
+            cy.request({
+                method: "POST",
+                url: "/files",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${at}`
+                },
+                body:  {
+                    "filename": "testwFile.mzn",
+                    "filetype": "mzn",
+                    "data": "This is the file content!"
+                }
+                
+            }).then(l => {return})
+        })
     })
     
     it("UPDATE TEST", () => {
