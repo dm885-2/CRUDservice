@@ -95,6 +95,7 @@ jobs:
         cat ./deployment.yaml | sed "s/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}-testing/g" | kubectl -n ${{ env.NAMESPACE }} apply -f -
     - name: Wait for service rollout
       run: |
+        kubectl -n rabbits rollout restart deploy/authenticationservice
         ./.github/k3s-wait.sh
         kubectl get pods 
         kubectl -n ${{ env.NAMESPACE }} get pods
@@ -105,7 +106,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: Integration Testing
-      run: npx cypress run --headed --browser chrome
+      run: npx cypress run --headless --browser chrome
 
   deploy:
     runs-on: ubuntu-latest
