@@ -85,7 +85,6 @@ jobs:
         chmod +x .github/k3s-wait.sh
         chmod +x ./test_services.sh
         ./.github/k3s-setup.sh
-        ./test_services.sh
       shell: bash
     - name: Wait for rollout
       run: |
@@ -95,7 +94,7 @@ jobs:
         cat ./deployment.yaml | sed "s/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}/${{secrets.DOCKERHUB_USERNAME}}\/${{env.DEPLOYMENT_NAME}}-testing/g" | kubectl -n ${{ env.NAMESPACE }} apply -f -
     - name: Wait for service rollout
       run: |
-        kubectl -n rabbits rollout restart deploy/authenticationservice
+        ./test_services.sh
         ./.github/k3s-wait.sh
         kubectl get pods 
         kubectl -n ${{ env.NAMESPACE }} get pods
