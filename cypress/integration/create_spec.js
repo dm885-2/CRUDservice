@@ -38,7 +38,7 @@ describe('CREATE Test', () => {
                 }                
             }).then(res2 => {
                 rt = res2.body.refreshToken;
-            }); 
+            });  
         });        
 
         cy.request({
