@@ -25,9 +25,8 @@ describe('DELETE Test', () => {
                 username: username,
                 password: password
             }).then(res2 => {
-                var rt = res2.body.refreshToken;
                 cy.request("POST", "/auth/accessToken", {
-                    refreshToken : rt
+                    refreshToken : res2.body.refreshToken
                 }).then(res3 => {
                     at = res3.body.accessToken;
                     //add a files before the test

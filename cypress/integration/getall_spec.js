@@ -10,12 +10,12 @@ describe('READ ALL Test', () => {
     + currentdate.getSeconds();
     
     var at;
+
     //Creates a user before spec file is run.
     before(()=> {
         Cypress.Cookies.defaults({
             preserve: "sessionId"
         })
-        
         let username = datetime;
         cy.request("POST", "/auth/register", {
             username: username,
