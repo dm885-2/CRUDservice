@@ -18,14 +18,24 @@ describe('CREATE Test', () => {
         
         let username = datetime;
         var rt;
-        cy.request("POST", "/auth/register", {
-            username: username,
-            password: password,
-            passwordRepeat: password
-        }).then(res => {
-            cy.request("POST", "/auth/login", {
-                username: username,
-                password: password
+        cy.request({
+                method: "POST",
+                url: "/auth/register",
+                retryOnStatusCodeFailure: true,
+                body: {     
+                    username: username,
+                    password: password,
+                    passwordRepeat: password
+                }
+            }).then(res => {
+            cy.request({
+                method: "POST",
+                url: "/auth/login",
+                retryOnStatusCodeFailure: true,
+                body: {     
+                    username: username,
+                    password: password
+                }                
             }).then(res2 => {
                 rt = res2.body.refreshToken;
             }); 
