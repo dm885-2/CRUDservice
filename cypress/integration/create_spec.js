@@ -31,8 +31,13 @@ describe('CREATE Test', () => {
             }); 
         });        
 
-        cy.request("POST", "/auth/accessToken", {
-            refreshToken : rt
+        cy.request({
+            method: "POST",
+            url: "/auth/accessToken",
+            retryOnStatusCodeFailure: true,
+            body: {     
+                refreshToken : rt
+            }
         }).then(res3 => {
             at = res3.body.accessToken;
         })
