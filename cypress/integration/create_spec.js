@@ -10,14 +10,13 @@ describe('CREATE Test', () => {
     + currentdate.getSeconds();
     
     var at;
+    var rt;
     //Creates a user before spec file is run.
     before(()=> {
         Cypress.Cookies.defaults({
             preserve: "sessionId"
         })
-        
         let username = datetime;
-        var rt;
         cy.request({
                 method: "POST",
                 url: "/auth/register",
@@ -40,7 +39,9 @@ describe('CREATE Test', () => {
                 rt = res2.body.refreshToken;
             });  
         });        
+    })
 
+    it("DEBUG", () => {
         cy.request({
             method: "POST",
             url: "/auth/accessToken",
@@ -50,24 +51,24 @@ describe('CREATE Test', () => {
             }
         }).then(res3 => {
             at = res3.body.accessToken;
+            //add a files before the test
+            cy.request({
+                method: "POST",
+                url: "/files",
+                retryOnStatusCodeFailure: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${at}`
+                },
+                body:  {
+                    "filename": "testwFile.mzn",
+                    "filetype": "mzn",
+                    "data": "This is the file content!"
+                }    
+            }).then(l => {return})
         })
-        //add a files before the test
-        cy.request({
-            method: "POST",
-            url: "/files",
-            retryOnStatusCodeFailure: true,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${at}`
-            },
-            body:  {
-                "filename": "testwFile.mzn",
-                "filetype": "mzn",
-                "data": "This is the file content!"
-            }    
-        }).then(l => {return})
     })
-    
+
    it("CREATE TEST", () => {
         let rowsBefore;  
 

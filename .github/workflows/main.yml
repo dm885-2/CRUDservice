@@ -105,7 +105,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: Integration Testing
-      run: npx cypress run --headless --browser chrome
+      run: npx cypress run --headed --browser chrome
 
   deploy:
     runs-on: ubuntu-latest
