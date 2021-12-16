@@ -53,7 +53,7 @@ Cypress.Commands.add('login', (userName, password) => {
       })
       .as('loginResponse')
       .then((response) => {
-        Cypress.env('rtoken', response.body.refreshToken); // either this or some global var but remember that this will only work in one test case
+        Cypress.env('rtoken', response.body.refreshToken); 
         return response;
       })
       .its('status')
@@ -71,9 +71,31 @@ Cypress.Commands.add('login', (userName, password) => {
       })
       .as('loginResponse')
       .then((response) => {
-        Cypress.env('token', response.body.accessToken); // either this or some global var but remember that this will only work in one test case
+        Cypress.env('token', response.body.accessToken);
         return response;
       })
       .its('status')
       .should('eq', 200);
   })
+
+Cypress.Commands.add("addFile", (name) => {
+    const token = Cypress.env('rtoken');
+        cy.request({
+          method: "POST",
+          url: "/files",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + Cypress.env("token")
+          },
+          body: {
+              filename: name,
+              filetype: "mzn",
+              data : "file content"
+          }
+      }).as('addFileResponse')
+      .then((response) => {
+        return response;
+      })
+      .its('status')
+      .should('eq', 200);
+})
