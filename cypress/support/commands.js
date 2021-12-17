@@ -75,3 +75,26 @@ cy.request({
   .its('status')
   .should('eq', 200);
 })
+
+Cypress.Commands.add('addFile', (name) => {
+  const token = Cypress.env('token');
+  cy.request({
+    method: "POST",
+    url: "/files",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+    },
+    body: {
+        filename: name,
+        filetype: "mzn",
+        data : "fuk of ya buggar"
+    }
+    })
+    .as('addfileResponse')
+    .then((response) => {
+      return response;
+    })
+    .its('status')
+    .should('eq', 200);
+  })

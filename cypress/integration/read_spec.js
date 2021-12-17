@@ -3,10 +3,7 @@ describe('READ Test', () => {
 
     //Creates a user before spec file is run.
     before(()=> {
-        const uname = "u"+Date.now();
-        const pass = "p"+Date.now();
-        cy.register(uname, pass);
-        cy.login(uname, pass);
+        cy.loginAsUser();
         cy.getAT();
         cy.addFile("test.mzn");
     })
