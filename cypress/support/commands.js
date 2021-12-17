@@ -22,80 +22,56 @@
 //
 //
 // -- This will overwrite an existing command --
-Cypress.Commands.add('register', (userName, password) => {
-    cy.request({
-        method:'POST', 
-        url:'/auth/register',
-        retryOnStatusCodeFailure: true,
-        retryOnNetworkFailure: true,
-        body: {
-            "username": userName,
-            "password": password,
-            "passwordRepeat": password
-        }
-        })
-        .as('registerResponse')
-        .then((response) => {
-            return response;
-        })
-        .its('status')
-        .should('eq', 200);
+Cypress.Commands.add('loginAsUser', () => {
+  cy.request({
+      method:'POST', 
+      url:'/auth/login',
+      body: {
+        username: "user",
+        password: "user_supersecure"
+      }
+    })
+    .as('loginResponse')
+    .then((response) => {
+      Cypress.env('rtoken', response.body.refreshToken); 
+      return response;
+    })
+    .its('status')
+    .should('eq', 200);
 })
 
-Cypress.Commands.add('login', (userName, password) => {
-    cy.request({
-        method:'POST', 
-        url:'/auth/login',
-        body: {
-          username: userName,
-          password: password
-        }
-      })
-      .as('loginResponse')
-      .then((response) => {
-        Cypress.env('rtoken', response.body.refreshToken); 
-        return response;
-      })
-      .its('status')
-      .should('eq', 200);
+Cypress.Commands.add('loginAsAdmin', () => {
+cy.request({
+    method:'POST', 
+    url:'/auth/login',
+    body: {
+      username: "admin",
+      password: "admin_supersecure"
+    }
   })
-
-  Cypress.Commands.add('getAT', () => {
-    const token = Cypress.env('rtoken');
-    cy.request({
-        method:'POST', 
-        url:'/auth/accessToken',
-        body: {
-          refreshToken : token
-        }
-      })
-      .as('loginResponse')
-      .then((response) => {
-        Cypress.env('token', response.body.accessToken);
-        return response;
-      })
-      .its('status')
-      .should('eq', 200);
+  .as('loginResponse')
+  .then((response) => {
+    Cypress.env('rtoken', response.body.refreshToken); 
+    return response;
   })
+  .its('status')
+  .should('eq', 200);
+})
 
-Cypress.Commands.add("addFile", (name) => {
-    const token = Cypress.env('rtoken');
-        cy.request({
-          method: "POST",
-          url: "/files",
-          headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + Cypress.env("token")
-          },
-          body: {
-              filename: name,
-              filetype: "mzn",
-              data : "file content"
-          }
-      }).as('addFileResponse')
-      .then((response) => {
-        return response;
-      })
-      .its('status')
-      .should('eq', 200);
+Cypress.Commands.add('getAT', () => {
+const token = Cypress.env('rtoken');
+cy.request({
+    method:'POST', 
+    url:'/auth/accessToken',
+    body: {
+      refreshToken : token
+    }
+  })
+  .as('loginResponse')
+  .then((response) => {
+    Cypress.env('token', response.body.accessToken);
+    return response;
+  })
+  .its('status')
+  .should('eq', 200);
 })
