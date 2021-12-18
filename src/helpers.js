@@ -55,13 +55,15 @@ if (process.env.mysqlDb) {
     });
     connection.connect();
    
-    await query(`CREATE TABLE if not exists files(
+    const res = await query(`CREATE TABLE if not exists files(
         fileId INT AUTO_INCREMENT, 
         filename varchar(50) not null,
         data text, 
         userId int,
         filetype varchar(5) not null,
         PRIMARY KEY (fileId))`);
+
+    if(!res) throw "Could not create database";
 }
 
 /**
