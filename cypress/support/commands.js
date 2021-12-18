@@ -67,7 +67,7 @@ cy.request({
       refreshToken : token
     }
   })
-  .as('loginResponse')
+  .as('atResponse')
   .then((response) => {
     Cypress.env('token', response.body.accessToken);
     return response;

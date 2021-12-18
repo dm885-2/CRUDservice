@@ -100,6 +100,8 @@ jobs:
         kubectl -n ${{ env.NAMESPACE }} get svc
     - name: Port Forward
       run: kubectl -n ${{ env.NAMESPACE }} port-forward svc/gateway 3000:80 & pid=$!
+    - name: TEST
+      run: kubectl exec -it pods/mysql-0 -- mysql -u root -ppassword123 -e 'USE db; SELECT * FROM users;'
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test

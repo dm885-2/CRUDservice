@@ -1,5 +1,5 @@
 {
-  "name": "crudservice-test",
+  "name": "crudservice",
   "version": "1.0.0",
   "description": "A microservice for CRUD operations on files",
   "main": "./src/index.js",
