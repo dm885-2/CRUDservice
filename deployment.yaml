@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: crud          # CHANGE THIS TO YOUR SERVICE NAME
-        image: dm885/crud          # CHANGE THIS TO YOUR DOCKER IMAGE
+        image: emovc18/crud          # CHANGE THIS TO YOUR DOCKER IMAGE
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

@@ -13,6 +13,7 @@ const host = 'amqp://' + rabbitUser + ':' + rabbitPass + '@' + (process.env.rabb
  * @param subscribers a list of subscribers
  */
 function subscriber(host, subscribers) {
+  console.log("Got here.1");
   rapid.subscribe(host, subscribers.map(subscriber => ({
     river: subscriber.river,
     event: subscriber.event,

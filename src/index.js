@@ -1,4 +1,7 @@
+import rapid from '@ovcina/rapidriver';
 import helpers from "./helpers.js";
+
+console.log("Starting......");
 
 export async function createFile(msg, publish) {
     let filename = msg.filename;
@@ -87,35 +90,18 @@ export async function getAllFiles(msg, publish) {
     }
 }
 
+console.log("Got here.1 ");
+
 if(process.env.RAPID)
 {
-    helpers.subscriber(host, [
-        {
-            river: "CRUD", 
-            event: "create-file", 
-            work: (msg, publish) => createFile
-        },
-        {
-            river: "CRUD",
-            event: "read-file",
-            work: (msg, publish) => readFile
-        },
-        {
-            river: "CRUD",
-            event: "update-file",
-            work: (msg, publish) => updateFile
-        },
-        {
-            river: "CRUD",
-            event: "delete-file",
-            work: (msg, publish) => deleteFile
-        },
-        {
-            river: "CRUD",
-            event: "get-all-files",
-            work: (msg, publish) => getAllFiles
-        },
-    ]);
+    console.log("Got here.1 " + helpers.host);
+    helpers.subscriber(helpers.host, [
+        { river: "CRUD", event: "create-file", work: createFile },
+        { river: "CRUD", event: "read-file", work: readFile },
+        { river: "CRUD", event: "update-file", work: updateFile },
+        { river: "CRUD", event: "delete-file", work: deleteFile },
+        { river: "CRUD", event: "get-all-files", work: getAllFiles }
+    ])
 }
 
 function omit(key, obj) {

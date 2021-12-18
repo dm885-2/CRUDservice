@@ -1,14 +1,14 @@
 {
-  "name": "crudservice",
-  "version": "0.0.1",
-  "description": "A template for a generic microservice",
+  "name": "crudservice-test",
+  "version": "1.0.0",
+  "description": "A microservice for CRUD operations on files",
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TESTING=1 npx jest ",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules TESTING=1 npx jest",
     "start": "cross-env RAPID=1 node src/index.js",
-    "debugDocker": "cross-env RAPID=1 mysqlHost=localhost mysqlPass=password mysqlDb=dm885 mysqlUser=root nodemon src/index.js",
-    "debug": "cross-env RAPID=1 nodemon src/index.js"
+    "debug": "cross-env RAPID=1 nodemon src/index.js",
+    "debugDocker": "cross-env RAPID=1 mysqlHost=localhost mysqlPass=password mysqlDb=dm885 mysqlUser=root nodemon src/index.js"
   },
   "repository": {
     "type": "git",
