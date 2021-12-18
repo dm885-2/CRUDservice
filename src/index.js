@@ -1,7 +1,4 @@
-import rapid from '@ovcina/rapidriver';
 import helpers from "./helpers.js";
-
-console.log("Starting......");
 
 export async function createFile(msg, publish) {
     let filename = msg.filename;
@@ -14,12 +11,11 @@ export async function createFile(msg, publish) {
     
     let params = [filename, data, userId, filetype];
 
-    await helpers.query(query, params, (error, results) => {
-        if (error) {
-            publish('create-file-response', {error: true, message: error.code});
-            return;
-        }
-    });                         
+    const results = await helpers.query(query, params);
+    if(!results) {
+        publish('create-file-response', {error: true, message: "Could not create file"});
+        return;
+    }                     
     publish('create-file-response', {error: false, message: "File created successfully.", filename: filename, filetype: filetype})
 } 
 
@@ -27,14 +23,12 @@ export async function readFile(msg, publish) {
     let fileId = msg.fileId;
     let query = 'SELECT * FROM files WHERE fileId=?';
 
-    const results = await helpers.query(query, [fileId], (error, results) => {
-        if(error || Object.keys(results).length === 0) {
-            publish('read-file-response', {error: true, message: "File not found", errormessage: error.code});
-            return;
-        }
-    });
-    if(results)
-        publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data})
+    const results = await helpers.query(query, [fileId]);
+    if(!results ||  Object.keys(results).length === 0) {
+        publish('read-file-response', {error: true, message: "File not found"});
+        return;
+    }
+    publish('read-file-response', {error: false, filename: results[0].filename, filetype: results[0].filetype, data: results[0].data})
 }
 
 export async function updateFile(msg, publish) {
@@ -46,12 +40,11 @@ export async function updateFile(msg, publish) {
                     WHERE fileId = ?`;
     let params = [data, fileId];
 
-    await helpers.query(query, params, (error, results) => {
-        if(error) {
-            publish('update-file-response', {error: true, message: "File not found", errormessage: error.code});
-            return;
-        }
-    });  
+    const results = await helpers.query(query, params);
+    if(!results) {
+        publish('update-file-response', {error: true, message: "Could not update file"});
+        return;    
+    }
     publish('update-file-response', {error: false, message: "File updated successfully"})
 }
 
@@ -60,12 +53,11 @@ export async function deleteFile(msg, publish) {
                 
     let query = `DELETE FROM files WHERE fileId = ?`
 
-    const results = await helpers.query(query, [fileId], (error, results) => {
-        if(error) {
-            publish('delete-file-response', {error: true, message: error.code});
-            return;
-        }
-    });
+    const results = await helpers.query(query, [fileId]);
+    if(!results) {
+        publish('delete-file-response', {error: true, message: "Could not delete file"});
+        return;
+    }
     publish('delete-file-response', {error: false, message: "File deleted succesfully"})
 }
 
@@ -75,26 +67,20 @@ export async function getAllFiles(msg, publish) {
 
     let query = 'SELECT * FROM files WHERE userId=? AND filetype = ?';
 
-    const results = await helpers.query(query, [userId, filetype], (error, results) => {
-        if(error) {
-            publish('get-all-files-response', {error: true, message: error.code});
-            return;
-        }
-    }); 
-    if(results) {
-        var files = [];
-        results.forEach(element => {
-            files.push(omit("data", element));
-        });
-        publish('get-all-files-response', {error: false, results: files});
+    const results = await helpers.query(query, [userId, filetype]);
+    if(!results) {
+        publish('get-all-files-response', {error: true, message: "Could not get all files"});
+        return;    
     }
+    var files = [];
+    results.forEach(element => {
+        files.push(omit("data", element));
+    });
+    publish('get-all-files-response', {error: false, results: files});
 }
-
-console.log("Got here.1 ");
 
 if(process.env.RAPID)
 {
-    console.log("Got here.1 " + helpers.host);
     helpers.subscriber(helpers.host, [
         { river: "CRUD", event: "create-file", work: createFile },
         { river: "CRUD", event: "read-file", work: readFile },

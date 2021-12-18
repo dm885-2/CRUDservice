@@ -13,7 +13,6 @@ const host = 'amqp://' + rabbitUser + ':' + rabbitPass + '@' + (process.env.rabb
  * @param subscribers a list of subscribers
  */
 function subscriber(host, subscribers) {
-  console.log("Got here.1");
   rapid.subscribe(host, subscribers.map(subscriber => ({
     river: subscriber.river,
     event: subscriber.event,
@@ -62,11 +61,7 @@ if (process.env.mysqlDb) {
         data text, 
         userId int,
         filetype varchar(5) not null,
-        PRIMARY KEY (fileId))`, (error, results) => {
-        if(error) {
-            throw error;
-        }
-    });
+        PRIMARY KEY (fileId))`);
 }
 
 /**
