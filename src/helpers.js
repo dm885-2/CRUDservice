@@ -2,7 +2,6 @@ import rapid from '@ovcina/rapidriver';
 import jwt from 'jsonwebtoken';
 import mysql from 'mysql';
 
-
 const SECRET = process.env.SECRET ?? `3(?<,t2mZxj$5JT47naQFTXwqNWP#W>'*Kr!X!(_M3N.u8v}%N/JYGHC.Zwq.!v-`;  // JWT secret
 const rabbitUser = process.env.rabbitUser ?? 'guest';
 const rabbitPass = process.env.rabbitPass ?? 'guest';
@@ -48,13 +47,25 @@ function getTokenData(token) {
 
 let connection;
 if (process.env.mysqlDb) {
-  connection = mysql.createConnection({
-    host: process.env.mysqlHost ?? 'localhost',
-    user: process.env.mysqlUser ?? 'root',
-    password: process.env.mysqlPass ?? '',
-    database: process.env.mysqlDb ?? 'db',
-  });
-  connection.connect();
+    connection = mysql.createConnection({
+        host: process.env.mysqlHost ?? 'localhost',
+        user: process.env.mysqlUser ?? 'root',
+        password: process.env.mysqlPass ?? '',
+        database: process.env.mysqlDb ?? 'db',
+    });
+    connection.connect();
+   
+    await query(`CREATE TABLE if not exists files(
+        fileId INT AUTO_INCREMENT, 
+        filename varchar(50) not null,
+        data text, 
+        userId int,
+        filetype varchar(5) not null,
+        PRIMARY KEY (fileId))`, (error, results) => {
+        if(error) {
+            throw error;
+        }
+    });
 }
 
 /**
