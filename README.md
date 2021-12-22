@@ -7,7 +7,7 @@
    filename: string,
    data: string,
    filetype: string
-}
+} 
 ```
 ### Response if successful:
 ```
