@@ -13,7 +13,9 @@ curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/my
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/auth-secrets.yaml |jq -r ".content" |base64 --decode | kubectl -n rabbits apply -f -
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pv.yaml |jq -r ".content" |base64 --decode | kubectl apply -f -
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pvc.yaml |jq -r ".content" |base64 --decode | kubectl apply -f -
-helm install mysql -f $(curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pvc.yaml |jq -r ".content" |base64 --decode) bitnami/mysql
+
+curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pvc.yaml |jq -r ".content" |base64 --decode > tmp1
+helm install mysql -f tmp1 bitnami/mysql
 
 # # RABBITMQ 
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/RabbitMQK8S/contents/rabbit-rbac.yaml |jq -r ".content" |base64 --decode | kubectl -n rabbits apply -f -
