@@ -14,7 +14,7 @@ curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/au
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pv.yaml |jq -r ".content" |base64 --decode | kubectl apply -f -
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pvc.yaml |jq -r ".content" |base64 --decode | kubectl apply -f -
 
-curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-pvc.yaml |jq -r ".content" |base64 --decode > tmp1
+curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/MySQLK8S/contents/mysql-values.yaml |jq -r ".content" |base64 --decode > tmp1
 helm install mysql -f tmp1 bitnami/mysql
 
 # # RABBITMQ 
