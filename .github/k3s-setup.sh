@@ -21,4 +21,4 @@ helm install mysql -f tmp1 bitnami/mysql
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/RabbitMQK8S/contents/rabbit-rbac.yaml |jq -r ".content" |base64 --decode | kubectl -n rabbits apply -f -
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/RabbitMQK8S/contents/rabbit-configmap.yaml |jq -r ".content" |base64 --decode | kubectl -n rabbits apply -f -
 curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/RabbitMQK8S/contents/rabbit-secret.yaml |jq -r ".content" |base64 --decode | kubectl -n rabbits apply -f -
-curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/RabbitMQK8S/contents/rabbit-statefulset.yaml |jq
+curl -s -u EmilOvcina:$1 https://api.github.com/repos/DM885/RabbitMQK8S/contents/rabbit-statefulset.yaml |jq -r ".content" |base64 --decode | kubectl -n rabbits apply -f -
